@@ -2,7 +2,8 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>PARANORMAL</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ARCHIVIO_OMBRE_V15_MOBILE</title>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; }
@@ -13,63 +14,76 @@
             text-transform: uppercase; overflow: hidden;
         }
 
+        /* Navbar */
         .navbar {
-            background: #111; color: var(--blood); padding: 10px 30px;
+            background: #111; color: var(--blood); padding: 10px 15px;
             display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 2px solid var(--blood); z-index: 100;
+            border-bottom: 2px solid var(--blood); z-index: 100; flex-shrink: 0;
         }
+        .navbar div { font-size: 18px; }
 
+        /* Banner VIP */
         .vip-banner {
             background: linear-gradient(90deg, #660000, #aa0000, #660000);
-            color: var(--gold); padding: 15px; text-align: center;
-            font-family: 'Creepster'; font-size: 28px; cursor: pointer;
-            border-bottom: 3px solid var(--gold); animation: pulse 2s infinite;
-            text-shadow: 2px 2px #000;
+            color: var(--gold); padding: 12px; text-align: center;
+            font-family: 'Creepster'; font-size: 20px; cursor: pointer;
+            border-bottom: 2px solid var(--gold); animation: pulse 2s infinite;
+            flex-shrink: 0;
         }
-        @keyframes pulse { 0% { opacity: 0.8; } 50% { opacity: 1; } 100% { opacity: 0.8; } }
 
-        .wrapper { display: flex; flex-grow: 1; overflow: hidden; width: 100vw; }
+        /* Layout Principale */
+        .wrapper { display: flex; flex-grow: 1; overflow: hidden; flex-direction: row; }
 
+        /* Sidebar Adattiva */
         .sidebar { 
-            width: 260px; min-width: 260px; background: rgba(5,5,5,0.98); 
+            width: 250px; min-width: 250px; background: rgba(5,5,5,0.98); 
             border: 1px solid #222; padding: 15px; overflow-y: auto; flex-shrink: 0;
         }
-        .side-title { font-family: 'Creepster'; color: var(--blood); font-size: 24px; text-align: center; margin-bottom: 15px; }
-        
-        .file-link { padding: 10px; font-size: 15px; border-bottom: 1px solid #1a1a1a; cursor: pointer; color: #bbb; position: relative; }
-        .file-link:hover { color: var(--gold); border-left: 3px solid var(--gold); padding-left: 10px; }
-        
-        .locked::after { content: " 🔒"; font-size: 12px; opacity: 0.5; float: right; }
+        .side-title { font-family: 'Creepster'; color: var(--blood); font-size: 22px; text-align: center; margin-bottom: 10px; }
+        .file-link { padding: 12px; font-size: 14px; border-bottom: 1px solid #1a1a1a; cursor: pointer; color: #bbb; }
+        .locked::after { content: " 🔒"; float: right; }
 
-        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: #000; overflow: hidden; min-width: 0; }
+        /* Console Centrale */
+        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: #000; min-width: 0; }
         
         .display-area { 
-            flex-grow: 1; padding: 30px; overflow-y: auto; overflow-x: hidden; 
-            white-space: pre-wrap; word-wrap: break-word; font-size: 20px; line-height: 1.6; color: #ccc; 
+            flex-grow: 1; padding: 20px; overflow-y: auto; 
+            font-size: 18px; line-height: 1.5; color: #ccc; 
         }
 
-        /* BOX RICERCA BLOCCABILE */
-        .input-box { background: #050505; border-top: 2px solid var(--blood); padding: 20px; display: flex; gap: 15px; transition: 0.5s; }
-        .input-locked { opacity: 0.4; cursor: not-allowed; }
-        .input-locked input { cursor: not-allowed; pointer-events: none; }
+        .input-box { background: #050505; border-top: 2px solid var(--blood); padding: 15px; display: flex; gap: 10px; }
+        .input-locked { opacity: 0.4; }
         
-        input { flex-grow: 1; background: #111; border: 1px solid #444; color: #fff; padding: 15px; font-family: 'Special Elite'; font-size: 18px; }
+        input { flex-grow: 1; background: #111; border: 1px solid #444; color: #fff; padding: 12px; font-family: 'Special Elite'; font-size: 16px; width: 50%; }
         
         .evoca-btn { 
-            background: var(--blood); color: #000; border: none; padding: 10px 30px; 
-            font-family: 'Creepster'; font-size: 26px; cursor: pointer;
+            background: var(--blood); color: #000; border: none; padding: 10px 15px; 
+            font-family: 'Creepster'; font-size: 20px; cursor: pointer;
         }
 
+        /* MODALE MOBILE */
         .modal {
             display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-            background: #111; border: 5px solid var(--gold); padding: 30px; z-index: 1000;
-            width: 500px; text-align: center; color: white; box-shadow: 0 0 100px #000;
+            background: #111; border: 3px solid var(--gold); padding: 20px; z-index: 1000;
+            width: 85%; max-width: 450px; text-align: center; color: white;
         }
-        .step { background: #222; padding: 12px; margin: 8px 0; border-radius: 5px; border-left: 5px solid var(--gold); text-align: left; font-size: 14px; }
-        .paypal-btn { background: #0070ba; color: white; padding: 10px; width: 100%; border: none; font-size: 18px; cursor: pointer; font-weight: bold; margin-top: 5px; }
-        .activate-btn { background: var(--gold); color: black; padding: 10px; width: 100%; border: none; font-size: 18px; cursor: pointer; font-weight: bold; margin-top: 10px; }
+        .step { background: #222; padding: 10px; margin: 8px 0; border-left: 4px solid var(--gold); text-align: left; font-size: 13px; }
+        .paypal-btn { background: #0070ba; color: white; padding: 12px; width: 100%; border: none; font-size: 16px; font-weight: bold; margin-top: 5px; }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 999; }
+
+        /* MEDIA QUERIES PER MOBILE */
+        @media (max-width: 768px) {
+            .wrapper { flex-direction: column; overflow-y: auto; }
+            .sidebar { width: 100%; min-width: 100%; height: auto; flex-shrink: 0; box-sizing: border-box; overflow-y: visible; }
+            body { overflow-y: auto; height: auto; }
+            .display-area { height: 400px; flex-grow: 0; }
+            .navbar div { font-size: 14px; }
+            .vip-banner { font-size: 16px; }
+            .modal { width: 90%; padding: 15px; }
+        }
+
+        @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
@@ -77,15 +91,15 @@
     <div id="overlay"></div>
 
     <div class="navbar">
-        <div style="font-family: 'Creepster'; font-size: 28px;">PARANORMAL</div>
+        <div style="font-family: 'Creepster'; color: var(--blood);">ARCHIVIO_OMBRE_V15</div>
         <div>
-            <span onclick="accessAdmin()" style="cursor:pointer; color:var(--blood)">ADMIN</span>
-            <span onclick="alert('Supporto: portaleparanormale@gmail.com')" style="cursor:pointer; margin-left:20px; color:var(--blood)">CONTATTAMI</span>
+            <span onclick="accessAdmin()" style="cursor:pointer;">ADMIN</span>
+            <span onclick="alert('Supporto: portaleparanormale@gmail.com')" style="cursor:pointer; margin-left:15px;">INFO</span>
         </div>
     </div>
 
     <div class="vip-banner" id="main-banner" onclick="openVip()">
-        SBLOCCA TUTTI I CASI E LA RICERCA LIBERA - DIVENTA VIP
+        SBLOCCA TUTTO - DIVENTA VIP
     </div>
 
     <div class="wrapper">
@@ -96,9 +110,8 @@
 
         <div class="main-console">
             <div class="display-area" id="ui-text"></div>
-            
             <div class="input-box" id="search-box" onclick="checkSearchLock()">
-                <input type="text" id="user-prompt" placeholder="Inserisci il nome di un'entità...">
+                <input type="text" id="user-prompt" placeholder="Nome entità...">
                 <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
             </div>
         </div>
@@ -110,34 +123,32 @@
     </div>
 
     <div id="payment-modal" class="modal">
-        <h2 style="font-family:'Creepster'; color:var(--gold); font-size:35px; margin:0;">ACCESSO VIP</h2>
-        <p>Sblocca l'intero archivio e la generazione libera.</p>
-        
+        <h2 style="font-family:'Creepster'; color:var(--gold); margin:0;">ACCESSO VIP</h2>
         <div class="step">
-            <b>1. DONAZIONE:</b> Invia 5€ (Amici/Familiari) a:<br>
-            <span style="color:var(--gold); font-size:16px;">perruccigregorio31@gmail.com</span>
-            <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA CON PAYPAL</button>
+            <b>1. PAGA 5€:</b><br>
+            <span style="color:var(--gold);">perruccigregorio31@gmail.com</span>
+            <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">APRI PAYPAL</button>
         </div>
-        <div class="step"><b>2. SCREENSHOT:</b> Invia la ricevuta a <b>portaleparanormale@gmail.com</b></div>
+        <div class="step"><b>2. INVIO SCREEN:</b> A portaleparanormale@gmail.com</div>
         <div class="step">
-            <b>3. CODICE:</b> Inserisci il token ricevuto:<br>
-            <input type="text" id="token-field" style="width:90%; margin-top:10px; text-align:center; padding:5px;" placeholder="TOKEN_ID">
-            <button class="activate-btn" onclick="validaToken()">ATTIVA ORA</button>
+            <b>3. ATTIVA:</b><br>
+            <input type="text" id="token-field" style="width:80%; margin-top:5px; padding:8px;" placeholder="TOKEN_ID">
+            <button onclick="validaToken()" style="background:var(--gold); width:100%; margin-top:10px; padding:10px; border:none; font-weight:bold;">ATTIVA ORA</button>
         </div>
-        <button onclick="closeVip()" style="background:none; border:none; color:grey; cursor:pointer; margin-top:10px;">[ ESCI ]</button>
+        <button onclick="closeVip()" style="background:none; border:none; color:grey; margin-top:10px;">[ ESCI ]</button>
     </div>
 
     <script>
         const API_URL = "https://archivio-paranormale.onrender.com";
         const VIP_TOKENS = ["VIP_9921", "GHOST_882", "MALEDETTO_2024", "GREGORIO_VIP"];
-        
         let isVip = localStorage.getItem('isVipOmbre') === 'true';
 
         async function init() {
             const searchBox = document.getElementById('search-box');
             if (isVip) {
-                document.getElementById('main-banner').innerText = "AUTORIZZAZIONE VIP CONFERMATA";
-                document.getElementById('main-banner').style.background = "linear-gradient(90deg, #b8860b, #ffd700, #b8860b)";
+                document.getElementById('main-banner').innerText = "VIP ATTIVO";
+                document.getElementById('main-banner').style.background = "var(--gold)";
+                document.getElementById('main-banner').style.color = "#000";
                 searchBox.classList.remove('input-locked');
             } else {
                 searchBox.classList.add('input-locked');
@@ -148,7 +159,7 @@
                 const data = await res.json();
                 renderMenu(data.sinistra, 'menu-left');
                 renderMenu(data.destra, 'menu-right');
-            } catch(e) { console.error("Offline."); }
+            } catch(e) { console.error("Database offline."); }
         }
 
         function renderMenu(list, id) {
@@ -158,33 +169,25 @@
                 const d = document.createElement('div');
                 d.className = 'file-link';
                 if (!isVip && index > 1) d.classList.add('locked');
-                
                 d.innerText = "† " + item.titolo;
                 d.onclick = () => {
-                    if (isVip || index <= 1) {
-                        getStoria(item.titolo);
-                    } else {
-                        triggerLock();
-                    }
+                    if (isVip || index <= 1) getStoria(item.titolo);
+                    else triggerLock();
                 };
                 cont.appendChild(d);
             });
         }
 
-        function checkSearchLock() {
-            if (!isVip) triggerLock();
-        }
+        function checkSearchLock() { if (!isVip) triggerLock(); }
 
         function triggerLock() {
-            const ui = document.getElementById('ui-text');
-            ui.innerHTML = `<h1 style="color:var(--blood); text-align:center; margin-top:20%;">ACCESSO NEGATO.</h1>
-            <p style="text-align:center; color:var(--gold);">LA RICERCA LIBERA E I FILE CLASSIFICATI SONO RISERVATI AI VIP.</p>`;
-            setTimeout(openVip, 1500);
+            document.getElementById('ui-text').innerHTML = `<h2 style="color:var(--blood); text-align:center; margin-top:50px;">ACCESSO NEGATO</h2><p style="text-align:center; color:var(--gold);">Sblocca il VIP per questo contenuto.</p>`;
+            setTimeout(openVip, 1200);
         }
 
         async function getStoria(prompt) {
             const ui = document.getElementById('ui-text');
-            ui.innerHTML = "<span style='color:var(--blood)'>INTERROGAZIONE DELL'OLTRE...</span>";
+            ui.innerHTML = "<span style='color:var(--blood)'>INTERROGAZIONE...</span>";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -193,22 +196,19 @@
                 });
                 const data = await res.json();
                 effettoScrittura(data.testo);
-            } catch(e) { ui.innerText = "CONNESSIONE INTERROTTA."; }
+            } catch(e) { ui.innerText = "ERRORE."; }
         }
 
         function generaCustom(event) {
-            event.stopPropagation(); // Impedisce al click di attivare checkSearchLock due volte
-            if (!isVip) {
-                triggerLock();
-                return;
-            }
+            event.stopPropagation();
+            if (!isVip) { triggerLock(); return; }
             const val = document.getElementById('user-prompt').value;
             if(val) getStoria("RAPPORTO MACABRO SU: " + val);
         }
 
         function effettoScrittura(t) {
             let i = 0; const ui = document.getElementById('ui-text'); ui.innerText = "";
-            function f() { if(i < t.length) { ui.innerText += t.charAt(i); i++; setTimeout(f, 12); ui.scrollTop = ui.scrollHeight; } }
+            function f() { if(i < t.length) { ui.innerText += t.charAt(i); i++; setTimeout(f, 10); ui.scrollTop = ui.scrollHeight; } }
             f();
         }
 
@@ -219,22 +219,15 @@
             if(VIP_TOKENS.includes(document.getElementById('token-field').value)) {
                 isVip = true;
                 localStorage.setItem('isVipOmbre', 'true');
-                alert("SANGUE ACCETTATO. ACCESSO TOTALE SBLOCCATO.");
-                document.getElementById('main-banner').innerText = "AUTORIZZAZIONE VIP CONFERMATA";
-                document.getElementById('main-banner').style.background = "linear-gradient(90deg, #b8860b, #ffd700, #b8860b)";
-                document.getElementById('search-box').classList.remove('input-locked');
-                closeVip();
-                init(); 
-            } else { alert("TOKEN RESPINTO."); }
+                alert("SBLOCCATO!");
+                location.reload();
+            } else { alert("NEGATO."); }
         }
 
         function accessAdmin() {
-            if(prompt("PASSWORD:") === "GREGORIO2026") {
-                alert("TOKEN VALIDI: " + VIP_TOKENS.join(", "));
-                if(confirm("Vuoi resettare lo stato VIP (solo per test)?")) {
-                    localStorage.removeItem('isVipOmbre');
-                    location.reload();
-                }
+            if(prompt("PASS:") === "GREGORIO2026") {
+                alert("TOKEN: " + VIP_TOKENS.join(", "));
+                if(confirm("Reset VIP?")) { localStorage.removeItem('isVipOmbre'); location.reload(); }
             }
         }
 
