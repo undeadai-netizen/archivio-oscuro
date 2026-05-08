@@ -7,7 +7,7 @@
     <meta name="google-site-verification" content="4zeE1NL8ee1ydC738yT4eAt7hW75pk2G_2GfZvuqnSY" />
 
     <title>Project Purgatory: Occult Archive</title>
-    <meta name="description" content="Project Purgatory: L'archivio segreto delle cronache paranormali. Esplora il lato oscuro dell'ignoto, storie di fantasmi e misteri proibiti.">
+    <meta name="description" content="Project Purgatory: L'archivio segreto delle cronache paranormali. Esplora il lato oscuro dell'ignoto e misteri proibiti.">
     <meta name="keywords" content="paranormale, occulto, Project Purgatory, horror, storie di paura, cronache oscure, fantasmi, mistero">
     <meta name="robots" content="index, follow">
     
@@ -15,9 +15,12 @@
     <meta property="og:description" content="Hai il coraggio di sfogliare il tomo proibito? Accedi alle cronache dell'oltretomba.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://undeadai-netizen.github.io/archivio-paranormal/">
-    <meta property="og:image" content="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1000&auto=format&fit=crop">
+    <meta property="og:image" content="https://undeadai-netizen.github.io/archivio-paranormal/cover.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1280">
+    <meta property="og:image:height" content="720">
 
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&swap" rel="stylesheet">
     
     <style>
         :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; --dark-bg: #050505; }
@@ -83,9 +86,9 @@
         <div class="sidebar"><div class="side-title">EUROPE_FILES</div><div id="menu-left"></div></div>
         <div class="main-console">
             <div class="audio-trigger" id="audio-btn" onclick="toggleVoice()">🔊</div>
-            <div class="display-area" id="ui-text">Benvenuto nel Project Purgatory. Seleziona una cronaca dai lati...</div>
+            <div class="display-area" id="ui-text">Sussurra un nome per iniziare l'evocazione...</div>
             <div class="input-box" id="search-box">
-                <input type="text" id="user-prompt" placeholder="Sussurra un nome o un luogo...">
+                <input type="text" id="user-prompt" placeholder="Nome o luogo oscuro...">
                 <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
             </div>
         </div>
@@ -98,17 +101,17 @@
             <div class="step">
                 <b>1. Offerta (5€)</b> Invia tramite PayPal a:
                 <div style="color:var(--gold); margin: 5px 0; font-family: monospace;">perruccigregorio31@gmail.com</div>
-                <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA CON PAYPAL</button>
+                <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA ORA</button>
             </div>
             <div class="step">
                 <b>2. Consegna Ricevuta</b> Invia lo screenshot a: <br><i>portaleparanormale@gmail.com</i>
             </div>
             <div class="step">
                 <b>3. Attiva il Sigillo</b>
-                <input type="text" id="token-field" style="width:90%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px;" placeholder="INSERISCI TOKEN_ID">
-                <button class="activate-btn" onclick="validaToken()">ATTIVA ACCESSO</button>
+                <input type="text" id="token-field" style="width:90%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px;" placeholder="TOKEN_ID">
+                <button class="activate-btn" onclick="validaToken()">ATTIVA</button>
             </div>
-            <button class="close-btn" onclick="closeVip()">[ RITORNA NELL'OMBRA ]</button>
+            <button class="close-btn" onclick="closeVip()">[ CHIUDI ]</button>
         </div>
     </div>
 
@@ -137,7 +140,7 @@
                 const data = await res.json();
                 renderMenu(data.sinistra, 'menu-left');
                 renderMenu(data.destra, 'menu-right');
-            } catch(e) { console.error("Database offline."); }
+            } catch(e) { console.error("Offline."); }
         }
 
         function renderMenu(list, id) {
@@ -158,7 +161,7 @@
             isSpeaking = false;
             document.getElementById('audio-btn').style.display = "none";
             const ui = document.getElementById('ui-text');
-            ui.innerHTML = "<span style='color:var(--blood)'>Risvegliando l'Entità... Attendere il responso.</span>";
+            ui.innerHTML = "<span style='color:var(--blood)'>Evocazione in corso...</span>";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -168,7 +171,7 @@
                 const data = await res.json();
                 currentText = data.testo;
                 effettoScrittura(data.testo);
-            } catch(e) { ui.innerText = "L'oscurità ha interrotto la comunicazione."; }
+            } catch(e) { ui.innerText = "L'oscurità ha interrotto il legame."; }
         }
 
         function effettoScrittura(t) {
@@ -212,7 +215,7 @@
             if(VIP_TOKENS.includes(document.getElementById('token-field').value.trim())) {
                 localStorage.setItem('isVipOmbre', 'true');
                 location.reload();
-            } else { alert("TOKEN RESPINTI."); }
+            } else { alert("TOKEN INVALIDO."); }
         }
         function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); if(confirm("Reset?")) { localStorage.removeItem('isVipOmbre'); location.reload(); } } }
         init();
