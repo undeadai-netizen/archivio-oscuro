@@ -10,107 +10,95 @@
         
         html, body { background-color: var(--nero); color: var(--rosso); font-family: 'Roboto Mono', monospace; margin: 0; min-height: 100vh; overflow-y: auto !important; }
         
-        /* Header Fisso */
-        .header-top { display: flex; justify-content: space-between; padding: 15px 20px; background: #000; border-bottom: 2px solid #222; align-items: center; }
-        .logo { font-family: 'Nosifer', sans-serif; color: var(--rosso); font-size: 1.4em; }
-        .nav-links { display: flex; gap: 20px; }
-        .nav-links a, .nav-links span { color: var(--rosso); text-decoration: none; font-size: 0.9em; cursor: pointer; text-transform: uppercase; font-weight: bold; border: 1px solid #300; padding: 5px 10px; border-radius: 4px; }
-        .nav-links a:hover, .nav-links span:hover { background: #300; color: white; }
+        /* HEADER FISSO - ADMIN E CONTATTAMI SEMPRE PRESENTI */
+        .top-nav { display: flex; justify-content: space-between; align-items: center; padding: 15px 25px; background: #000; border-bottom: 2px solid #222; position: sticky; top: 0; z-index: 1000; }
+        .logo { font-family: 'Nosifer', sans-serif; color: var(--rosso); font-size: 1.4em; text-decoration: none; }
+        .links-area { display: flex; gap: 20px; }
+        .links-area a, .links-area span { color: var(--rosso); text-decoration: none; font-size: 0.9em; cursor: pointer; font-weight: bold; text-transform: uppercase; border: 1px solid #400; padding: 5px 12px; transition: 0.3s; }
+        .links-area a:hover, .links-area span:hover { background: #400; color: #fff; }
 
-        /* Banner VIP */
-        .vip-banner { 
-            background: linear-gradient(to bottom, #600 0%, var(--rosso) 20%, #000 100%); 
-            border-top: 2px solid var(--oro); border-bottom: 2px solid var(--oro);
-            color: var(--oro); text-align: center; padding: 20px; 
-            font-family: 'Creepster', cursive; font-size: 2em; cursor: pointer;
-        }
+        /* BANNER VIP */
+        .vip-banner { background: linear-gradient(to right, #000, #600, var(--rosso), #600, #000); border-top: 2px solid var(--oro); border-bottom: 2px solid var(--oro); color: var(--oro); text-align: center; padding: 20px; font-family: 'Creepster', cursive; font-size: 2em; cursor: pointer; text-shadow: 2px 2px #000; }
+        .vip-banner:hover { transform: scale(1.01); filter: brightness(1.2); }
 
-        /* Layout */
-        .main-layout { display: grid; grid-template-columns: 280px 1fr 280px; gap: 15px; padding: 15px; }
-        .sidebar { background: rgba(15,0,0,0.9); padding: 15px; border: 1px solid #222; height: fit-content; }
-        .sidebar-title { font-family: 'Creepster', cursive; color: var(--rosso); font-size: 1.6em; text-align: center; border-bottom: 2px solid #500; margin-bottom: 15px; }
+        /* GRID */
+        .main-layout { display: grid; grid-template-columns: 280px 1fr 280px; gap: 15px; padding: 20px; }
+        .sidebar { background: rgba(10,0,0,0.9); padding: 15px; border: 1px solid #222; }
+        .sidebar-title { font-family: 'Creepster', cursive; font-size: 1.6em; text-align: center; border-bottom: 2px solid #600; margin-bottom: 15px; padding-bottom: 5px; }
         
-        .story-link { padding: 12px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; transition: 0.3s; }
-        .story-link:hover { color: #fff; background: #400; padding-left: 20px; }
+        .story-link { padding: 12px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; transition: 0.2s; }
+        .story-link:hover { color: #fff; background: #500; padding-left: 20px; }
 
-        .center-content { background: #050505; border: 1px solid #222; padding: 25px; display: flex; flex-direction: column; box-shadow: inset 0 0 50px #000; }
-        #terminal-output { color: #ddd; font-size: 1.2em; line-height: 1.8; white-space: pre-wrap; margin-bottom: 30px; min-height: 500px; }
+        .center-area { background: #050505; border: 1px solid #222; padding: 30px; display: flex; flex-direction: column; min-height: 600px; }
+        #terminal-output { color: #eee; font-size: 1.2em; line-height: 1.9; white-space: pre-wrap; margin-bottom: 40px; text-shadow: 1px 1px 1px #000; }
 
-        /* Input */
-        .evoca-box { display: flex; gap: 10px; background: #000; padding: 20px; border: 1px solid #400; margin-top: auto; }
-        input { flex: 1; background: #111; border: 1px solid #500; color: var(--rosso); padding: 15px; font-family: 'Roboto Mono'; font-size: 1em; }
-        .btn-evoca { background: #600; color: #fff; border: none; padding: 0 35px; font-family: 'Creepster'; font-size: 1.6em; cursor: pointer; transition: 0.3s; }
-        .btn-evoca:hover { background: var(--rosso); box-shadow: 0 0 15px var(--rosso); }
+        /* BOX EVOCA */
+        .evoca-box { display: flex; gap: 10px; background: #000; padding: 20px; border: 1px solid #500; margin-top: auto; }
+        input { flex: 1; background: #111; border: 1px solid #600; color: var(--rosso); padding: 15px; font-family: 'Roboto Mono'; font-size: 1em; }
+        .btn-evoca { background: #800; color: #fff; border: none; padding: 0 40px; font-family: 'Creepster'; font-size: 1.8em; cursor: pointer; }
+        .btn-evoca:hover { background: var(--rosso); box-shadow: 0 0 20px var(--rosso); }
 
-        /* Modali */
-        .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-content { background: #0a0a0a; border: 3px solid var(--oro); padding: 40px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 0 50px rgba(255, 215, 0, 0.2); }
-        .close-btn { margin-top: 20px; background: none; border: 1px solid #555; color: #888; padding: 10px 20px; cursor: pointer; }
+        /* MODALI */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; justify-content: center; align-items: center; }
+        .modal-content { background: #0a0a0a; border: 3px solid var(--oro); padding: 40px; width: 85%; max-width: 500px; text-align: center; color: white; }
+        .close-btn { margin-top: 25px; background: none; border: 1px solid #555; color: #aaa; padding: 10px 20px; cursor: pointer; }
 
         @media (max-width: 1100px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
     </style>
 </head>
 <body>
 
-    <div class="header-top">
-        <div class="logo">PARANORMAL</div>
-        <div class="nav-links">
-            <span onclick="openM('admin-modal')">ADMIN</span>
+    <nav class="top-nav">
+        <a href="#" class="logo">PARANORMAL</a>
+        <div class="links-area">
+            <span onclick="openM('admin-pop')">ADMIN</span>
             <a href="mailto:portaleparanormale@gmail.com">CONTATTAMI</a>
         </div>
-    </div>
+    </nav>
 
-    <div class="vip-banner" onclick="openM('vip-modal')">
-        SBLOCCA TUTTI I CASI E LA RICERCA LIBERA - DIVENTA VIP
-    </div>
+    <div class="vip-banner" onclick="openM('vip-pop')">DIVENTA VIP - ACCESSO ILLIMITATO</div>
 
     <div class="main-layout">
-        <div class="sidebar">
-            <div class="sidebar-title">EUROPE_FILES</div>
-            <div id="col-sin"></div>
-        </div>
-
-        <div class="center-content">
-            <div id="terminal-output">>>> INIZIALIZZAZIONE CONNESSIONE...</div>
+        <div class="sidebar"><div class="sidebar-title">EUROPE_FILES</div><div id="col-sin"></div></div>
+        <div class="center-area">
+            <div id="terminal-output">>>> CONNESSIONE STABILITA. IN ATTESA DI SELEZIONE...</div>
             <div class="evoca-box">
                 <input type="text" id="query" placeholder="Soggetto da evocare...">
                 <button class="btn-evoca" onclick="evoca()">EVOCA</button>
             </div>
         </div>
-
-        <div class="sidebar">
-            <div class="sidebar-title">GLOBAL_DEATH</div>
-            <div id="col-des"></div>
-        </div>
+        <div class="sidebar"><div class="sidebar-title">GLOBAL_DEATH</div><div id="col-des"></div></div>
     </div>
 
-    <div id="vip-modal" class="modal-overlay">
+    <div id="vip-pop" class="modal">
         <div class="modal-content">
             <h2 style="font-family:'Creepster'; color:var(--oro); font-size:2.5em;">ACCESSO VIP</h2>
-            <p>Invia 5€ (Amici/Familiari) a:<br><b style="color:var(--oro)">perruccigregorio31@gmail.com</b></p>
-            <p>Manda lo screenshot a:<br><b>portaleparanormale@gmail.com</b></p>
-            <button class="close-btn" onclick="closeM('vip-modal')">TORNA INDIETRO</button>
+            <p>Supporta l'Archivio e sblocca la ricerca libera.</p>
+            <div style="text-align:left; background:#1a1a1a; padding:15px; border-left:4px solid var(--oro);">
+                - Invia 5€ (Amici) a: <b>perruccigregorio31@gmail.com</b><br>
+                - Screenshot ricevuta a: <b>portaleparanormale@gmail.com</b>
+            </div>
+            <button class="close-btn" onclick="closeM('vip-pop')">CHIUDI</button>
         </div>
     </div>
 
-    <div id="admin-modal" class="modal-overlay">
+    <div id="admin-pop" class="modal">
         <div class="modal-content">
-            <h2 style="font-family:'Creepster'; color:var(--rosso); font-size:2.5em;">ADMIN PANEL</h2>
+            <h2 style="font-family:'Creepster'; color:var(--rosso); font-size:2.5em;">ADMIN LOGIN</h2>
             <p>Inserisci Token:</p>
-            <input type="password" id="token-input" style="width:100%; text-align:center;">
-            <button class="btn-evoca" style="width:100%; margin-top:10px; font-size:1em;" onclick="alert('Token errato.')">ATTIVA</button>
-            <button class="close-btn" onclick="closeM('admin-modal')">ESCI</button>
+            <input type="password" placeholder="TOKEN..." style="width:100%; text-align:center;">
+            <button class="btn-evoca" style="width:100%; margin-top:15px; font-size:1.2em;" onclick="alert('Token non valido.')">LOGIN</button>
+            <button class="close-btn" onclick="closeM('admin-pop')">ANNULLA</button>
         </div>
     </div>
 
     <script>
         const API = "https://archivio-paranormale-production.up.railway.app";
 
-        // Funzione per tenere sveglio il server
-        function keepAlive() {
-            fetch(`${API}/titoli`).catch(e => console.log("Sveglia inviata"));
-        }
-        setInterval(keepAlive, 30000); // Bussa ogni 30 secondi
+        // CUORE PULSANTE: Tiene il server sveglio ogni 25 secondi
+        setInterval(() => {
+            fetch(`${API}/titoli`).catch(() => {});
+        }, 25000);
 
         async function init() {
             try {
@@ -129,16 +117,16 @@
                 };
                 fill('col-sin', data.sinistra);
                 fill('col-des', data.destra);
-                document.getElementById('terminal-output').innerText = ">>> DATABASE ONLINE. SELEZIONA UN DOSSIER.";
-            } catch (e) { 
-                document.getElementById('terminal-output').innerText = ">>> IL SERVER È IN PAUSA. CLICCA 'EVOCA' O UN TITOLO PER SVEGLIARLO.";
-                setTimeout(init, 5000); 
+                document.getElementById('terminal-output').innerText = ">>> SISTEMA PRONTO. DOSSIER CARICATI.";
+            } catch (e) {
+                document.getElementById('terminal-output').innerText = ">>> IL DATABASE STA DORMENDO. CLICCA UN TITOLO PER SVEGLIARLO.";
+                setTimeout(init, 5000);
             }
         }
 
         async function genera(t) {
             const out = document.getElementById('terminal-output');
-            out.innerText = ">>> ACCESSO FILE: " + t.toUpperCase() + "\n>>> CARICAMENTO...";
+            out.innerText = ">>> ESTRAZIONE FILE: " + t.toUpperCase() + "...";
             try {
                 const res = await fetch(`${API}/genera-storia`, {
                     method: 'POST',
@@ -147,8 +135,8 @@
                 });
                 const data = await res.json();
                 out.innerText = data.testo;
-            } catch (e) { 
-                out.innerText = ">>> L'OSCURITÀ HA INTERROTTO LA CONNESSIONE. IL SERVER SI STA RIACCENDENDO, CLICCA DI NUOVO TRA 5 SECONDI."; 
+            } catch (e) {
+                out.innerText = ">>> L'OSCURITÀ HA INTERROTTO LA CONNESSIONE. CLICCA DI NUOVO PER FORZARE L'ACCESSO.";
             }
         }
 
