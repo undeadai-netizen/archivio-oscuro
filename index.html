@@ -19,10 +19,11 @@
             color: var(--rosso-sangue);
             font-family: 'Roboto Mono', monospace;
             margin: 0;
-            overflow: hidden;
-            height: 100vh;
+            padding: 0;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
+            overflow-x: hidden; /* Evita scivolamenti laterali */
         }
 
         /* Navigazione Superiore */
@@ -49,23 +50,20 @@
             font-size: 1.6em;
             cursor: pointer;
             text-transform: uppercase;
-            transition: 0.3s;
         }
-        .vip-banner:hover { text-shadow: 0 0 10px var(--oro-vip); transform: scale(1.01); }
 
         /* Layout Principale */
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            flex-grow: 1;
-            overflow: hidden;
+            flex: 1;
         }
 
         .sidebar {
             padding: 20px;
             border-right: 1px solid #1a1a1a;
             border-left: 1px solid #1a1a1a;
-            overflow-y: auto;
+            background: #000;
         }
 
         .sidebar-title {
@@ -85,24 +83,25 @@
         }
         .story-link:hover { color: #fff; background: #200; }
 
-        /* Area Centrale */
+        /* Area Centrale - SISTEMATA PER SCORRIMENTO */
         .center-content {
             display: flex;
             flex-direction: column;
             padding: 20px;
             background: #050505;
+            min-height: 600px;
         }
 
         #terminal-output {
             flex-grow: 1;
             padding: 20px;
             border: 1px solid #1a1a1a;
-            color: #aaa;
-            font-size: 1em;
-            line-height: 1.6;
+            color: #ccc;
+            font-size: 1.1em;
+            line-height: 1.8;
             white-space: pre-wrap;
-            overflow-y: auto;
             margin-bottom: 20px;
+            /* Rimosso overflow hidden per permettere alla pagina di allungarsi */
         }
 
         /* Box Evoca */
@@ -111,7 +110,8 @@
             gap: 10px;
             padding: 15px;
             background: #000;
-            border-top: 1px solid #300;
+            border: 1px solid #300;
+            margin-bottom: 20px;
         }
 
         input[type="text"] {
@@ -134,7 +134,7 @@
         }
         .btn-evoca:hover { background: var(--rosso-sangue); }
 
-        /* MODALE VIP (Popup) */
+        /* MODALE VIP */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -152,10 +152,9 @@
             max-width: 600px;
             padding: 30px;
             text-align: center;
-            box-shadow: 0 0 50px var(--oro-vip);
         }
 
-        .modal-title { font-family: 'Creepster'; color: var(--oro-vip); font-size: 3em; margin-bottom: 10px; }
+        .modal-title { font-family: 'Creepster'; color: var(--oro-vip); font-size: 3em; }
         
         .step-box {
             background: #222;
@@ -163,7 +162,6 @@
             padding: 15px;
             border: 1px solid #444;
             text-align: left;
-            font-size: 0.9em;
             color: #eee;
         }
 
@@ -172,30 +170,16 @@
             background: #0070ba;
             color: white;
             text-decoration: none;
-            padding: 15px;
+            padding: 10px;
+            text-align: center;
             font-weight: bold;
             margin-top: 10px;
-            border-radius: 5px;
         }
 
-        .input-token {
-            width: 100%;
-            background: #000;
-            border: 1px solid #444;
-            color: var(--oro-vip);
-            padding: 10px;
-            margin: 10px 0;
-            text-align: center;
-        }
-
-        .btn-attiva {
-            background: var(--oro-vip);
-            color: #000;
-            width: 100%;
-            padding: 15px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
+        /* Mobile */
+        @media (max-width: 900px) {
+            .main-layout { grid-template-columns: 1fr; }
+            .sidebar { display: none; } /* Nasconde le sidebar su mobile per far spazio alla storia */
         }
     </style>
 </head>
@@ -237,26 +221,20 @@
     <div class="modal-overlay" id="vip-modal">
         <div class="modal-content">
             <div class="modal-title">ACCESSO VIP</div>
-            <p>SBLOCCA L'INTERO ARCHIVIO E LA GENERAZIONE LIBERA.</p>
-            
             <div class="step-box">
-                <b>1. DONAZIONE:</b> INVIA 5€ (AMICI/FAMILIARI) A:<br>
-                <span style="color:var(--oro-vip)">perruccigregorio31@gmail.com</span>
-                <a href="https://www.paypal.com/paypalme/perruccigregorio31/5" target="_blank" class="paypal-btn">PAGA CON PAYPAL</a>
+                1. INVIA 5€ (AMICI/FAMILIARI) A:<br>
+                <b style="color:var(--oro-vip)">perruccigregorio31@gmail.com</b>
+                <a href="https://www.paypal.com/paypalme/perruccigregorio31/5" target="_blank" class="paypal-btn">PAGA ORA</a>
             </div>
-
             <div class="step-box">
-                <b>2. SCREENSHOT:</b> INVIA LA RICEVUTA A:<br>
-                <span style="color:var(--oro-vip)">portaleparanormale@gmail.com</span>
+                2. INVIA RICEVUTA A:<br>
+                <b style="color:var(--oro-vip)">portaleparanormale@gmail.com</b>
             </div>
-
             <div class="step-box">
-                <b>3. CODICE:</b> INSERISCI IL TOKEN RICEVUTO:
-                <input type="text" class="input-token" placeholder="TOKEN_ID">
-                <button class="btn-attiva">ATTIVA ORA</button>
+                3. INSERISCI TOKEN:<br>
+                <input type="text" style="width:80%; padding:5px; margin-top:5px;">
             </div>
-
-            <div style="margin-top:20px; cursor:pointer;" onclick="toggleVip(false)">[ ESCI ]</div>
+            <button onclick="toggleVip(false)" style="margin-top:20px; background:none; color:white; border:1px solid #444; cursor:pointer; padding:5px 20px;">CHIUDI</button>
         </div>
     </div>
 
@@ -267,14 +245,13 @@
             try {
                 const res = await fetch(`${API_URL}/titoli`);
                 const data = await res.json();
-                
                 const draw = (id, list) => {
                     const el = document.getElementById(id);
                     list.forEach(t => {
                         const d = document.createElement('div');
                         d.className = 'story-link';
                         d.innerText = "† " + t.titolo;
-                        d.onclick = () => genera(t.titolo);
+                        d.onclick = () => { genera(t.titolo); window.scrollTo(0,0); };
                         el.appendChild(d);
                     });
                 };
@@ -285,7 +262,7 @@
 
         async function genera(t) {
             const out = document.getElementById('terminal-output');
-            out.innerText = "CONNESSIONE AL FILE: " + t + "...\nESTRAZIONE CRONACA IN CORSO...";
+            out.innerText = "ACCESSO FILE: " + t + "...\nESTRAZIONE DATI IN CORSO...";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
