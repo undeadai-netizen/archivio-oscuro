@@ -3,61 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHIVIO DELLE OMBRE - FINAL AUDIO FIX</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
+    
+    <title>Project Purgatory: Occult Archive</title>
+    <meta name="description" content="Project Purgatory: L'archivio segreto delle cronache paranormali. Esplora il lato oscuro dell'ignoto, storie di fantasmi e misteri proibiti.">
+    <meta name="keywords" content="paranormale, occulto, Project Purgatory, horror, storie di paura, cronache oscure, fantasmi, mistero">
+    <meta name="robots" content="index, follow">
+    
+    <meta property="og:title" content="Project Purgatory: Occult Archive">
+    <meta property="og:description" content="Hai il coraggio di sfogliare il tomo proibito? Accedi alle cronache dell'oltretomba.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://undeadai-netizen.github.io/archivio-paranormal/">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1509248961158-e54f6934749c?q=80&w=1000&auto=format&fit=crop"> <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
+    
     <style>
         :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; --dark-bg: #050505; }
         body { margin: 0; padding: 0; background: #000; color: var(--ghost); font-family: 'Special Elite', serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; text-transform: uppercase; }
+        
         .navbar { background: #111; color: var(--blood); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--blood); z-index: 100; flex-shrink: 0; }
         .nav-right { display: flex; gap: 20px; align-items: center; }
-        .nav-link { cursor: pointer; font-size: 14px; transition: 0.3s; border: 1px solid transparent; padding: 5px 10px; }
+        .nav-link { cursor: pointer; font-size: 14px; transition: 0.3s; border: 1px solid transparent; padding: 5px 10px; text-decoration: none; color: var(--blood); }
         .nav-link:hover { color: var(--gold); border-color: var(--blood); }
+
         .vip-banner { background: linear-gradient(90deg, #440000, #aa0000, #440000); color: var(--gold); padding: 12px; text-align: center; font-family: 'Creepster'; font-size: 22px; cursor: pointer; border-bottom: 2px solid var(--gold); animation: pulse 2s infinite; flex-shrink: 0; text-shadow: 2px 2px #000; }
+        
         .wrapper { display: flex; flex-grow: 1; overflow: hidden; }
         .sidebar { width: 260px; min-width: 260px; background: var(--dark-bg); border: 1px solid #1a1a1a; padding: 15px; overflow-y: auto; flex-shrink: 0; }
         .side-title { font-family: 'Creepster'; color: var(--blood); font-size: 24px; text-align: center; margin-bottom: 15px; border-bottom: 1px solid var(--blood); }
         .file-link { padding: 12px; font-size: 14px; border-bottom: 1px solid #111; cursor: pointer; color: #888; transition: 0.3s; }
         .file-link:hover { color: var(--gold); background: #0a0a0a; border-left: 3px solid var(--gold); }
         .locked::after { content: " 🔒"; float: right; opacity: 0.5; }
+
         .main-console { flex-grow: 1; display: flex; flex-direction: column; background: radial-gradient(circle, #111 0%, #000 100%); min-width: 0; position: relative; }
         .audio-trigger { position: absolute; top: 20px; right: 30px; font-size: 35px; cursor: pointer; color: var(--gold); display: none; z-index: 10; filter: drop-shadow(0 0 5px #000); transition: 0.3s; }
         .audio-trigger:hover { transform: scale(1.2); color: var(--blood); }
+        
         .display-area { flex-grow: 1; padding: 45px; overflow-y: auto; font-family: 'EB Garamond', serif; font-size: 22px; line-height: 1.8; color: #ccc; text-transform: none; text-align: justify; }
         .display-area::first-letter { font-family: 'Creepster'; font-size: 75px; color: var(--blood); float: left; margin-right: 12px; line-height: 1; }
+
         .input-box { background: #050505; border-top: 2px solid var(--blood); padding: 15px; display: flex; gap: 10px; }
         .input-locked { opacity: 0.3; pointer-events: none; }
         input { flex-grow: 1; background: #000; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Special Elite'; font-size: 16px; }
         .evoca-btn { background: var(--blood); color: #000; border: none; padding: 10px 20px; font-family: 'Creepster'; font-size: 22px; cursor: pointer; }
+
+        /* MODALE PAGAMENTO */
         .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid var(--gold); padding: 0; z-index: 1000; width: 90%; max-width: 480px; box-shadow: 0 0 50px rgba(170, 0, 0, 0.5); }
         .modal-header { background: var(--blood); color: #000; padding: 15px; font-family: 'Creepster'; font-size: 28px; text-align: center; }
         .modal-body { padding: 25px; color: #ddd; }
         .step { background: #151515; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
         .step b { color: var(--gold); display: block; margin-bottom: 5px; }
-        .paypal-btn { background: #0070ba; color: white; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; }
-        .activate-btn { background: var(--gold); color: #000; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: 'Special Elite'; }
+        .paypal-btn { background: #0070ba; color: white; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; font-size: 16px; }
+        .activate-btn { background: var(--gold); color: #000; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: 'Special Elite'; font-size: 16px; }
         .close-btn { color: #555; cursor: pointer; display: block; margin: 15px auto; background: none; border: none; text-decoration: underline; }
+
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; }
+
         @media (max-width: 768px) { .wrapper { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; min-width: 100%; height: auto; } .display-area { height: 400px; padding: 25px; } }
         @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
     </style>
 </head>
 <body>
     <div id="overlay" onclick="closeVip()"></div>
+    
     <div class="navbar">
-        <div style="font-family: 'Creepster'; font-size: 26px;">ARCHIVIO_OMBRE_V18.2</div>
+        <div style="font-family: 'Creepster'; font-size: 26px;">PROJECT PURGATORY</div>
         <div class="nav-right">
-            <div class="nav-link" onclick="window.location.href='mailto:portaleparanormale@gmail.com'">CONTATTA L'ENTITÀ</div>
+            <a class="nav-link" href="mailto:portaleparanormale@gmail.com">CONTATTA L'ENTITÀ</a>
             <div class="nav-link" onclick="accessAdmin()">ADMIN</div>
         </div>
     </div>
-    <div class="vip-banner" id="main-banner" onclick="openVip()">SBLOCCA IL LIBRO E LA VOCE - DIVENTA VIP</div>
+
+    <div class="vip-banner" id="main-banner" onclick="openVip()">
+        SBLOCCA IL TOMO PROIBITO - ACCESSO VIP
+    </div>
+
     <div class="wrapper">
         <div class="sidebar"><div class="side-title">EUROPE_FILES</div><div id="menu-left"></div></div>
         <div class="main-console">
             <div class="audio-trigger" id="audio-btn" onclick="toggleVoice()">🔊</div>
-            <div class="display-area" id="ui-text">Benvenuto nell'Archivio delle Ombre...</div>
+            <div class="display-area" id="ui-text">Sussurra un nome per iniziare l'evocazione...</div>
             <div class="input-box" id="search-box">
-                <input type="text" id="user-prompt" placeholder="Nome dell'entità...">
+                <input type="text" id="user-prompt" placeholder="Nome dell'entità o luogo...">
                 <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
             </div>
         </div>
@@ -65,17 +90,24 @@
     </div>
 
     <div id="payment-modal" class="modal">
-        <div class="modal-header">Patto di Sangue (VIP)</div>
+        <div class="modal-header">Patto di Sangue (Accesso VIP)</div>
         <div class="modal-body">
-            <div class="step"><b>1. Offerta (5€)</b> Invia a: <div style="color:var(--gold); font-family: monospace;">perruccigregorio31@gmail.com</div>
+            <div class="step">
+                <b>1. Offerta (5€)</b>
+                Invia tramite PayPal (Amici/Familiari) a:
+                <div style="color:var(--gold); margin: 5px 0; font-family: monospace;">perruccigregorio31@gmail.com</div>
                 <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA ORA</button>
             </div>
-            <div class="step"><b>2. Consegna</b> Invia screen a: portaleparanormale@gmail.com</div>
-            <div class="step"><b>3. Attiva</b>
-                <input type="text" id="token-field" style="width:90%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px;" placeholder="TOKEN_ID">
-                <button class="activate-btn" onclick="validaToken()">ATTIVA</button>
+            <div class="step">
+                <b>2. Consegna Ricevuta</b>
+                Invia lo screenshot a: <br><i>portaleparanormale@gmail.com</i>
             </div>
-            <button class="close-btn" onclick="closeVip()">[ CHIUDI ]</button>
+            <div class="step">
+                <b>3. Attiva il Sigillo</b>
+                <input type="text" id="token-field" style="width:90%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px;" placeholder="INSERISCI TOKEN_ID">
+                <button class="activate-btn" onclick="validaToken()">ATTIVA ACCESSO</button>
+            </div>
+            <button class="close-btn" onclick="closeVip()">[ ESCI ]</button>
         </div>
     </div>
 
@@ -86,67 +118,14 @@
         let currentText = "";
         let isSpeaking = false;
 
-        // --- SISTEMA VOCE AVANZATO ---
-        let voices = [];
-        function loadVoices() {
-            voices = window.speechSynthesis.getVoices();
-        }
-        window.speechSynthesis.onvoiceschanged = loadVoices;
-        loadVoices();
-
-        function toggleVoice() {
-            if (isSpeaking) {
-                window.speechSynthesis.cancel();
-                isSpeaking = false;
-                document.getElementById('audio-btn').innerText = "🔊";
-            } else {
-                window.speechSynthesis.cancel(); // Reset totale
-                
-                // Pulizia testo per una lettura fluida
-                let cleanText = currentText.replace(/[#*]/g, '');
-                
-                const utterance = new SpeechSynthesisUtterance(cleanText);
-                
-                // Cerchiamo una voce italiana decente
-                if (voices.length === 0) voices = window.speechSynthesis.getVoices();
-                const itVoice = voices.find(v => v.lang.includes('it-IT')) || voices[0];
-                
-                utterance.voice = itVoice;
-                utterance.lang = 'it-IT';
-                utterance.pitch = 0.4; 
-                utterance.rate = 0.8;
-                utterance.volume = 1.0;
-
-                utterance.onstart = () => { 
-                    isSpeaking = true; 
-                    document.getElementById('audio-btn').innerText = "🔇"; 
-                };
-                utterance.onend = () => { 
-                    isSpeaking = false; 
-                    document.getElementById('audio-btn').innerText = "🔊"; 
-                };
-
-                window.speechSynthesis.speak(utterance);
-                
-                // Fix per Chrome/Android che a volte mette in pausa dopo 15 secondi
-                const keepAlive = setInterval(() => {
-                    if (window.speechSynthesis.speaking) {
-                        window.speechSynthesis.pause();
-                        window.speechSynthesis.resume();
-                    } else {
-                        clearInterval(keepAlive);
-                    }
-                }, 10000);
-            }
-        }
-        // ------------------------------
-
         function init() {
             if (isVip) {
-                document.getElementById('main-banner').innerText = "SIGILLO VIP ATTIVO";
+                document.getElementById('main-banner').innerText = "PATTO VIP ATTIVO - ACCESSO TOTALE";
                 document.getElementById('main-banner').style.background = "var(--gold)";
                 document.getElementById('main-banner').style.color = "#000";
                 document.getElementById('search-box').classList.remove('input-locked');
+            } else {
+                document.getElementById('search-box').classList.add('input-locked');
             }
             loadTitoli();
         }
@@ -157,7 +136,7 @@
                 const data = await res.json();
                 renderMenu(data.sinistra, 'menu-left');
                 renderMenu(data.destra, 'menu-right');
-            } catch(e) { console.error("Offline"); }
+            } catch(e) { console.error("Database offline."); }
         }
 
         function renderMenu(list, id) {
@@ -177,7 +156,8 @@
             window.speechSynthesis.cancel();
             isSpeaking = false;
             document.getElementById('audio-btn').style.display = "none";
-            document.getElementById('ui-text').innerHTML = "<span style='color:var(--blood)'>Risvegliando l'Entità...</span>";
+            const ui = document.getElementById('ui-text');
+            ui.innerHTML = "<span style='color:var(--blood)'>Evocazione in corso... Attendere il responso.</span>";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -187,7 +167,7 @@
                 const data = await res.json();
                 currentText = data.testo;
                 effettoScrittura(data.testo);
-            } catch(e) { document.getElementById('ui-text').innerText = "Errore di evocazione."; }
+            } catch(e) { ui.innerText = "L'oscurità ha interrotto la comunicazione."; }
         }
 
         function effettoScrittura(t) {
@@ -196,13 +176,32 @@
                 if(i < t.length) { 
                     ui.innerHTML += t.charAt(i) === "\n" ? "<br>" : t.charAt(i);
                     i++; setTimeout(f, 5); ui.scrollTop = ui.scrollHeight; 
-                } else { document.getElementById('audio-btn').style.display = "block"; }
+                } else {
+                    document.getElementById('audio-btn').style.display = "block";
+                }
             }
             f();
         }
 
+        function toggleVoice() {
+            if (isSpeaking) {
+                window.speechSynthesis.cancel();
+                isSpeaking = false;
+                document.getElementById('audio-btn').innerText = "🔊";
+            } else {
+                window.speechSynthesis.cancel();
+                const msg = new SpeechSynthesisUtterance(currentText.replace(/[*#]/g, ''));
+                msg.lang = 'it-IT';
+                msg.pitch = 0.5;
+                msg.rate = 0.8;
+                msg.onstart = () => { isSpeaking = true; document.getElementById('audio-btn').innerText = "🔇"; };
+                msg.onend = () => { isSpeaking = false; document.getElementById('audio-btn').innerText = "🔊"; };
+                window.speechSynthesis.speak(msg);
+            }
+        }
+
         function triggerLock() { 
-            document.getElementById('ui-text').innerHTML = "<h2 style='color:var(--blood); text-align:center;'>ACCESSO NEGATO</h2>";
+            document.getElementById('ui-text').innerHTML = "<h2 style='color:var(--blood); text-align:center;'>ACCESSO NEGATO</h2><p style='text-align:center;'>Stringi un patto VIP per leggere questa cronaca.</p>";
             setTimeout(openVip, 1000); 
         }
         function generaCustom() { if (!isVip) { triggerLock(); return; } const val = document.getElementById('user-prompt').value; if(val) getStoria(val); }
@@ -212,7 +211,7 @@
             if(VIP_TOKENS.includes(document.getElementById('token-field').value.trim())) {
                 localStorage.setItem('isVipOmbre', 'true');
                 location.reload();
-            } else { alert("TOKEN NON VALIDO."); }
+            } else { alert("TOKEN RESPINTI."); }
         }
         function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); if(confirm("Reset?")) { localStorage.removeItem('isVipOmbre'); location.reload(); } } }
         init();
