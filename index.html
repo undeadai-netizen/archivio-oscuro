@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ARCHIVIO DELLE OMBRE - LIBRO PROIBITO</title>
+    <title>ARCHIVIO DELLE OMBRE - VOCE DALL'OLTRE</title>
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
         :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; }
@@ -33,13 +33,19 @@
         .file-link:hover { color: var(--gold); background: #0a0a0a; }
         .locked::after { content: " 🔒"; float: right; opacity: 0.5; }
 
-        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: radial-gradient(circle, #111 0%, #000 100%); min-width: 0; }
+        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: radial-gradient(circle, #111 0%, #000 100%); min-width: 0; position: relative; }
         
+        /* Icona Audio */
+        .audio-trigger {
+            position: absolute; top: 20px; right: 20px; font-size: 30px; 
+            cursor: pointer; color: var(--blood); display: none; z-index: 10;
+            text-shadow: 0 0 10px var(--blood);
+        }
+
         .display-area { 
             flex-grow: 1; padding: 45px; overflow-y: auto; 
             font-family: 'EB Garamond', serif; font-size: 22px; line-height: 1.8; 
             color: #ccc; text-transform: none; text-align: justify;
-            white-space: pre-wrap; /* Mantiene gli a capo del testo */
         }
         .display-area::first-letter { font-family: 'Creepster'; font-size: 70px; color: var(--blood); float: left; margin-right: 12px; line-height: 1; }
 
@@ -57,7 +63,6 @@
             .sidebar { width: 100%; min-width: 100%; height: auto; overflow-y: visible; }
             body { height: auto; overflow-y: auto; }
             .display-area { height: 500px; padding: 25px; font-size: 20px; }
-            .navbar div { font-size: 14px; }
         }
         @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
     </style>
@@ -65,18 +70,19 @@
 <body>
     <div id="overlay"></div>
     <div class="navbar">
-        <div style="font-family: 'Creepster'; font-size: 24px;">ARCHIVIO_OMBRE_V16</div>
+        <div style="font-family: 'Creepster'; font-size: 24px;">ARCHIVIO_OMBRE_V17</div>
         <div class="nav-right">
             <div class="nav-link" onclick="window.location.href='mailto:portaleparanormale@gmail.com'">CONTATTA L'ENTITÀ</div>
             <div class="nav-link" onclick="accessAdmin()">ADMIN</div>
         </div>
     </div>
-    <div class="vip-banner" id="main-banner" onclick="openVip()">SBLOCCA IL LIBRO DELLE OMBRE - ACCESSO VIP</div>
+    <div class="vip-banner" id="main-banner" onclick="openVip()">SBLOCCA IL LIBRO E LA VOCE - VIP</div>
 
     <div class="wrapper">
         <div class="sidebar"><div class="side-title">EUROPE_FILES</div><div id="menu-left"></div></div>
         <div class="main-console">
-            <div class="display-area" id="ui-text">Scegli una cronaca dai lati o evoca un'entità...</div>
+            <div class="audio-trigger" id="audio-btn" onclick="toggleVoice()">🔊</div>
+            <div class="display-area" id="ui-text">Scegli una cronaca dai lati...</div>
             <div class="input-box" id="search-box" onclick="checkSearchLock()">
                 <input type="text" id="user-prompt" placeholder="Nome dell'entità...">
                 <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
@@ -88,10 +94,10 @@
     <div id="payment-modal" class="modal">
         <h2 style="font-family:'Creepster'; color:var(--gold); font-size:30px;">ACCESSO VIP</h2>
         <div class="step"><b>1. PAYPAL (5€):</b> perruccigregorio31@gmail.com</div>
-        <div class="step"><b>2. INVIO SCREEN:</b> portaleparanormale@gmail.com</div>
+        <div class="step"><b>2. SCREEN:</b> portaleparanormale@gmail.com</div>
         <div class="step">
-            <input type="text" id="token-field" style="width:80%; padding:10px; margin-top:5px;" placeholder="INSERISCI TOKEN">
-            <button onclick="validaToken()" style="background:var(--gold); width:100%; margin-top:10px; padding:12px; border:none; font-weight:bold; cursor:pointer;">ATTIVA ORA</button>
+            <input type="text" id="token-field" style="width:80%; padding:10px;" placeholder="TOKEN ID">
+            <button onclick="validaToken()" style="background:var(--gold); width:100%; margin-top:10px; padding:12px; border:none; font-weight:bold; cursor:pointer;">ATTIVA</button>
         </div>
         <button onclick="closeVip()" style="background:none; border:none; color:grey; margin-top:15px; cursor:pointer;">[ CHIUDI ]</button>
     </div>
@@ -100,6 +106,9 @@
         const API_URL = "https://archivio-paranormale.onrender.com";
         const VIP_TOKENS = ["VIP_9921", "GHOST_882", "MALEDETTO_2024", "GREGORIO_VIP"];
         let isVip = localStorage.getItem('isVipOmbre') === 'true';
+        let currentText = "";
+        let synth = window.speechSynthesis;
+        let isSpeaking = false;
 
         async function init() {
             if (isVip) {
@@ -132,13 +141,15 @@
 
         function checkSearchLock() { if (!isVip) triggerLock(); }
         function triggerLock() { 
-            document.getElementById('ui-text').innerHTML = "<h2 style='color:var(--blood); text-align:center;'>ACCESSO NEGATO</h2><p style='text-align:center;'>Sblocca il VIP per leggere questo tomo proibito.</p>";
-            setTimeout(openVip, 1200); 
+            document.getElementById('ui-text').innerHTML = "<h2 style='color:var(--blood); text-align:center;'>ACCESSO NEGATO</h2>";
+            setTimeout(openVip, 1000); 
         }
 
         async function getStoria(prompt) {
+            stopVoice();
+            document.getElementById('audio-btn').style.display = "none";
             const ui = document.getElementById('ui-text');
-            ui.innerHTML = "<span style='color:var(--blood); font-family:Special Elite;'>L'archivista sta scrivendo la cronaca...</span>";
+            ui.innerHTML = "<span style='color:var(--blood); font-family:Special Elite;'>L'archivista sta scrivendo...</span>";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -146,10 +157,52 @@
                     body: JSON.stringify({ titolo: prompt })
                 });
                 const data = await res.json();
-                // Sostituiamo gli a capo (\n) con <br> per la formattazione
-                const testoFormattato = data.testo.replace(/\n/g, "<br>");
+                currentText = data.testo;
                 effettoScrittura(data.testo);
             } catch(e) { ui.innerText = "La cronaca è andata perduta."; }
+        }
+
+        function effettoScrittura(t) {
+            let i = 0; const ui = document.getElementById('ui-text'); ui.innerHTML = "";
+            function f() { 
+                if(i < t.length) { 
+                    ui.innerHTML += t.charAt(i) === "\n" ? "<br>" : t.charAt(i);
+                    i++; setTimeout(f, 5); ui.scrollTop = ui.scrollHeight; 
+                } else {
+                    document.getElementById('audio-btn').style.display = "block";
+                }
+            }
+            f();
+        }
+
+        function toggleVoice() {
+            if (isSpeaking) {
+                stopVoice();
+            } else {
+                speakText(currentText);
+            }
+        }
+
+        function speakText(text) {
+            if (synth.speaking) synth.cancel();
+            const utterance = new SpeechSynthesisUtterance(text);
+            const voices = synth.getVoices();
+            // Cerchiamo una voce maschile italiana
+            utterance.voice = voices.find(v => v.lang.includes('it') && v.name.includes('Google')) || voices[0];
+            utterance.pitch = 0.5; // Voce molto profonda
+            utterance.rate = 0.85;  // Parlata lenta e inquietante
+            utterance.volume = 1;
+
+            utterance.onstart = () => { isSpeaking = true; document.getElementById('audio-btn').innerText = "🔇"; };
+            utterance.onend = () => { isSpeaking = false; document.getElementById('audio-btn').innerText = "🔊"; };
+            
+            synth.speak(utterance);
+        }
+
+        function stopVoice() {
+            synth.cancel();
+            isSpeaking = false;
+            document.getElementById('audio-btn').innerText = "🔊";
         }
 
         function generaCustom(event) {
@@ -159,33 +212,15 @@
             if(val) getStoria(val);
         }
 
-        function effettoScrittura(t) {
-            let i = 0; const ui = document.getElementById('ui-text'); ui.innerHTML = "";
-            function f() { 
-                if(i < t.length) { 
-                    // Se incontriamo un a capo, mettiamo un br invece di \n
-                    if(t.charAt(i) === "\n") {
-                        ui.innerHTML += "<br>";
-                    } else {
-                        ui.innerHTML += t.charAt(i);
-                    }
-                    i++; 
-                    setTimeout(f, 5); 
-                    ui.scrollTop = ui.scrollHeight; 
-                } 
-            }
-            f();
-        }
-
         function openVip() { document.getElementById('payment-modal').style.display='block'; document.getElementById('overlay').style.display='block'; }
         function closeVip() { document.getElementById('payment-modal').style.display='none'; document.getElementById('overlay').style.display='none'; }
         function validaToken() {
             if(VIP_TOKENS.includes(document.getElementById('token-field').value)) {
                 localStorage.setItem('isVipOmbre', 'true');
                 location.reload();
-            } else { alert("Token non valido."); }
+            } else { alert("Falso."); }
         }
-        function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); if(confirm("Reset VIP?")) { localStorage.removeItem('isVipOmbre'); location.reload(); } } }
+        function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); if(confirm("Reset?")) { localStorage.removeItem('isVipOmbre'); location.reload(); } } }
         init();
     </script>
 </body>
