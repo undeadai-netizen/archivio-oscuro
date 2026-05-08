@@ -8,29 +8,38 @@
         @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Roboto+Mono:wght@400;700&display=swap');
         :root { --rosso: #ff0000; --oro: #ffd700; --nero: #000000; }
         html, body { background-color: var(--nero); color: var(--rosso); font-family: 'Roboto Mono', monospace; margin: 0; min-height: 100vh; overflow-y: auto !important; }
-        .header-top { display: flex; justify-content: space-between; padding: 10px 20px; background: #000; border-bottom: 1px solid #222; }
-        .logo { font-family: 'Nosifer', sans-serif; color: var(--rosso); font-size: 1.2em; }
-        .vip-banner { background: linear-gradient(to bottom, #800 0%, var(--rosso) 10%, #000 100%); border: 1px solid var(--oro); color: var(--oro); text-align: center; padding: 15px; font-family: 'Creepster', cursive; font-size: 1.6em; cursor: pointer; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; padding: 10px 20px; background: #000; border-bottom: 1px solid #222; }
+        .logo { font-family: 'Nosifer', sans-serif; font-size: 1.2em; color: var(--rosso); }
+        .nav-links a, .nav-links span { color: var(--rosso); text-decoration: none; font-size: 0.8em; cursor: pointer; text-transform: uppercase; margin-left: 15px; }
+        .vip-banner { background: linear-gradient(to bottom, #800 0%, var(--rosso) 10%, #000 100%); border-top: 1px solid var(--oro); border-bottom: 1px solid var(--oro); color: var(--oro); text-align: center; padding: 15px; font-family: 'Creepster', cursive; font-size: 1.8em; cursor: pointer; text-transform: uppercase; }
         .main-layout { display: grid; grid-template-columns: 280px 1fr 280px; gap: 10px; padding: 15px; }
-        .sidebar { background: #050505; padding: 15px; border: 1px solid #1a1a1a; }
-        .sidebar-title { font-family: 'Creepster', cursive; font-size: 1.4em; text-align: center; border-bottom: 1px solid #400; margin-bottom: 15px; }
-        .story-link { padding: 10px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; text-transform: uppercase; }
+        .sidebar { background: #050505; padding: 15px; border: 1px solid #1a1a1a; height: fit-content; }
+        .sidebar-title { font-family: 'Creepster', cursive; color: var(--rosso); font-size: 1.4em; text-align: center; border-bottom: 1px solid #400; margin-bottom: 15px; }
+        .story-link { padding: 10px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; }
         .story-link:hover { color: #fff; background: #200; }
-        .center-content { background: #020202; border: 1px solid #1a1a1a; padding: 20px; display: flex; flex-direction: column; min-height: 500px; }
-        #terminal-output { color: #ccc; font-size: 1.1em; line-height: 1.8; white-space: pre-wrap; margin-bottom: 20px; }
-        .evoca-box { display: flex; gap: 10px; background: #000; padding: 15px; border: 1px solid #300; margin-top: auto; }
+        .center-content { background: #020202; border: 1px solid #1a1a1a; padding: 20px; min-height: 500px; }
+        #terminal-output { color: #ccc; font-size: 1.1em; line-height: 1.8; white-space: pre-wrap; margin-bottom: 30px; }
+        .evoca-box { display: flex; gap: 10px; background: #000; padding: 15px; border: 1px solid #300; }
         input { flex: 1; background: #080808; border: 1px solid #400; color: var(--rosso); padding: 12px; font-family: 'Roboto Mono'; }
         .btn-evoca { background: #400; color: #000; border: none; padding: 0 25px; font-family: 'Creepster'; font-size: 1.4em; cursor: pointer; }
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 9999; justify-content: center; align-items: center; }
+        .modal-content { background: #111; border: 3px solid var(--oro); padding: 30px; max-width: 500px; width: 90%; text-align: center; }
         @media (max-width: 1000px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
     </style>
 </head>
 <body>
-    <div class="header-top"><div class="logo">PARANORMAL</div></div>
-    <div class="vip-banner">SBLOCCA TUTTI I CASI E LA RICERCA LIBERA - DIVENTA VIP</div>
+    <div class="top-bar">
+        <div class="logo">PARANORMAL</div>
+        <div class="nav-links">
+            <span onclick="openM('admin-m')">ADMIN</span>
+            <a href="mailto:portaleparanormale@gmail.com">CONTATTAMI</a>
+        </div>
+    </div>
+    <div class="vip-banner" onclick="openM('vip-m')">SBLOCCA TUTTI I CASI - DIVENTA VIP</div>
     <div class="main-layout">
         <div class="sidebar"><div class="sidebar-title">EUROPE_FILES</div><div id="col-sin"></div></div>
         <div class="center-content">
-            <div id="terminal-output">>>> DATABASE ONLINE. SELEZIONA UN DOSSIER...</div>
+            <div id="terminal-output">>>> SISTEMA PRONTO. SELEZIONA UN DOSSIER...</div>
             <div class="evoca-box">
                 <input type="text" id="query" placeholder="Soggetto da evocare...">
                 <button class="btn-evoca" onclick="evoca()">EVOCA</button>
@@ -39,13 +48,16 @@
         <div class="sidebar"><div class="sidebar-title">GLOBAL_DEATH</div><div id="col-des"></div></div>
     </div>
 
+    <div class="modal" id="vip-m"><div class="modal-content"><h2 style="font-family:'Creepster'; color:var(--oro)">VIP ACCESS</h2><p>Invia 5€ a: perruccigregorio31@gmail.com</p><button onclick="closeM('vip-m')">CHIUDI</button></div></div>
+    <div class="modal" id="admin-m"><div class="modal-content"><h2>ADMIN</h2><input type="password" placeholder="TOKEN"><button onclick="closeM('admin-m')">ESCI</button></div></div>
+
     <script>
-        // TRUCCO: Abbiamo rimosso la barra finale e aggiunto un controllo di fallback
         const API = "https://archivio-paranormale-production.up.railway.app";
 
-        async function carica() {
+        async function init() {
             try {
-                const res = await fetch(`${API}/titoli`, { method: 'GET', mode: 'cors' });
+                // Aggiunto no-cache per forzare il server a rispondere sempre
+                const res = await fetch(`${API}/titoli`, { cache: "no-store" });
                 const data = await res.json();
                 const fill = (id, list) => {
                     const box = document.getElementById(id);
@@ -60,35 +72,31 @@
                 };
                 fill('col-sin', data.sinistra);
                 fill('col-des', data.destra);
-            } catch (e) {
-                console.error("Tentativo...");
-                setTimeout(carica, 2000); 
-            }
+            } catch (e) { setTimeout(init, 3000); }
         }
 
         async function genera(t) {
             const out = document.getElementById('terminal-output');
-            out.innerText = ">>> ACCESSO FILE: " + t.toUpperCase() + "\n>>> ESTRAZIONE IN CORSO...";
+            out.innerText = ">>> ACCESSO FILE: " + t.toUpperCase() + "\n>>> CARICAMENTO...";
             try {
                 const res = await fetch(`${API}/genera-storia`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ titolo: t })
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({titolo: t}),
+                    mode: 'cors' // Forza la modalità cross-origin
                 });
                 const data = await res.json();
                 out.innerText = data.testo;
                 window.scrollTo({top: 0, behavior: 'smooth'});
             } catch (e) {
-                out.innerText = ">>> ERRORE: Il server Railway sta dormendo. Attendi 10 secondi e riprova cliccando di nuovo.";
+                out.innerText = ">>> L'oscurità ha interrotto la connessione. Riprova tra 5 secondi, il database si sta ricollegando...";
             }
         }
 
-        function evoca() {
-            const v = document.getElementById('query').value;
-            if(v) genera(v);
-        }
-
-        carica();
+        function evoca() { const v = document.getElementById('query').value; if(v) genera(v); }
+        function openM(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
+        init();
     </script>
 </body>
 </html>
