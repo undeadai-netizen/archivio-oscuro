@@ -5,130 +5,176 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <meta name="google-site-verification" content="4zeE1NL8ee1ydC738yT4eAt7hW75pk2G_2GfZvuqnSY" />
-
     <title>Project Purgatory: Occult Archive</title>
-    <meta name="description" content="Project Purgatory: L'archivio segreto delle cronache paranormali. Esplora il lato oscuro dell'ignoto e misteri proibiti.">
-    <meta name="keywords" content="paranormale, occulto, Project Purgatory, horror, storie di paura, cronache oscure, fantasmi, mistero">
-    <meta name="robots" content="index, follow">
+    <meta name="description" content="Project Purgatory: L'archivio segreto delle cronache paranormali.">
     
     <meta property="og:title" content="Project Purgatory: Occult Archive">
-    <meta property="og:description" content="Hai il coraggio di sfogliare il tomo proibito? Accedi alle cronache dell'oltretomba.">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://undeadai-netizen.github.io/archivio-paranormal/">
     <meta property="og:image" content="https://undeadai-netizen.github.io/archivio-paranormal/cover.png">
-    <meta property="og:image:type" content="image/png">
-    <meta property="og:image:width" content="1280">
-    <meta property="og:image:height" content="720">
 
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
     
     <style>
-        :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; --dark-bg: #050505; }
-        body { margin: 0; padding: 0; background: #000; color: var(--ghost); font-family: 'Special Elite', serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; text-transform: uppercase; }
+        :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; --dark-bg: #080808; }
         
-        .navbar { background: #111; color: var(--blood); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--blood); z-index: 100; flex-shrink: 0; }
-        .nav-right { display: flex; gap: 20px; align-items: center; }
-        .nav-link { cursor: pointer; font-size: 14px; transition: 0.3s; border: 1px solid transparent; padding: 5px 10px; text-decoration: none; color: var(--blood); }
-        .nav-link:hover { color: var(--gold); border-color: var(--blood); }
+        body { 
+            margin: 0; padding: 0; background: #000; color: var(--ghost); 
+            font-family: 'Special Elite', serif; display: flex; flex-direction: column; 
+            height: 100vh; overflow: hidden; text-transform: uppercase; 
+        }
 
-        .vip-banner { background: linear-gradient(90deg, #440000, #aa0000, #440000); color: var(--gold); padding: 12px; text-align: center; font-family: 'Creepster'; font-size: 22px; cursor: pointer; border-bottom: 2px solid var(--gold); animation: pulse 2s infinite; flex-shrink: 0; text-shadow: 2px 2px #000; }
-        
+        /* NAVBAR COMPATTA */
+        .navbar { 
+            background: #111; color: var(--blood); padding: 8px 15px; 
+            display: flex; justify-content: space-between; align-items: center; 
+            border-bottom: 2px solid var(--blood); z-index: 100;
+        }
+        .nav-title { font-family: 'Creepster'; font-size: 20px; }
+        .nav-link { color: var(--blood); text-decoration: none; font-size: 11px; margin-left: 10px; }
+
+        .vip-banner { 
+            background: linear-gradient(90deg, #440000, #aa0000, #440000); 
+            color: var(--gold); padding: 10px; text-align: center; 
+            font-family: 'Creepster'; font-size: 18px; cursor: pointer; 
+            border-bottom: 2px solid var(--gold); text-shadow: 2px 2px #000;
+        }
+
+        /* LAYOUT RESPONSIVE */
         .wrapper { display: flex; flex-grow: 1; overflow: hidden; }
-        .sidebar { width: 260px; min-width: 260px; background: var(--dark-bg); border: 1px solid #1a1a1a; padding: 15px; overflow-y: auto; flex-shrink: 0; }
-        .side-title { font-family: 'Creepster'; color: var(--blood); font-size: 24px; text-align: center; margin-bottom: 15px; border-bottom: 1px solid var(--blood); }
-        .file-link { padding: 12px; font-size: 14px; border-bottom: 1px solid #111; cursor: pointer; color: #888; transition: 0.3s; }
-        .file-link:hover { color: var(--gold); background: #0a0a0a; border-left: 3px solid var(--gold); }
-        .locked::after { content: " 🔒"; float: right; opacity: 0.5; }
 
-        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: radial-gradient(circle, #111 0%, #000 100%); min-width: 0; position: relative; }
-        .audio-trigger { position: absolute; top: 20px; right: 30px; font-size: 35px; cursor: pointer; color: var(--gold); display: none; z-index: 10; filter: drop-shadow(0 0 5px #000); transition: 0.3s; }
-        
-        .display-area { flex-grow: 1; padding: 45px; overflow-y: auto; font-family: 'EB Garamond', serif; font-size: 22px; line-height: 1.8; color: #ccc; text-transform: none; text-align: justify; }
-        .display-area::first-letter { font-family: 'Creepster'; font-size: 75px; color: var(--blood); float: left; margin-right: 12px; line-height: 1; }
+        .sidebar { 
+            width: 250px; background: var(--dark-bg); 
+            border-right: 1px solid #222; overflow-y: auto; 
+            transition: 0.3s;
+        }
 
-        /* BOX CONDIVISIONE */
-        .share-container { display: none; margin-top: 30px; padding: 20px; border-top: 1px double var(--blood); text-align: center; }
-        .share-title { font-family: 'Creepster'; color: var(--gold); font-size: 20px; margin-bottom: 15px; }
-        .share-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
-        .share-btn { width: 45px; height: 45px; cursor: pointer; transition: 0.3s; filter: grayscale(1) invert(1); }
-        .share-btn:hover { transform: translateY(-5px); filter: grayscale(0) invert(0); }
+        .main-console { 
+            flex-grow: 1; display: flex; flex-direction: column; 
+            background: radial-gradient(circle, #111 0%, #000 100%); 
+            position: relative; overflow: hidden;
+        }
 
-        .input-box { background: #050505; border-top: 2px solid var(--blood); padding: 15px; display: flex; gap: 10px; }
-        .input-locked { opacity: 0.3; pointer-events: none; }
-        input { flex-grow: 1; background: #000; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Special Elite'; font-size: 16px; }
-        .evoca-btn { background: var(--blood); color: #000; border: none; padding: 10px 20px; font-family: 'Creepster'; font-size: 22px; cursor: pointer; }
+        /* DISPLAY AREA OTTIMIZZATA PER MOBILE */
+        .display-area { 
+            flex-grow: 1; padding: 25px; overflow-y: auto; 
+            font-family: 'EB Garamond', serif; font-size: 20px; 
+            line-height: 1.6; color: #ccc; text-transform: none; text-align: justify;
+        }
+        .display-area::first-letter { 
+            font-family: 'Creepster'; font-size: 60px; color: var(--blood); 
+            float: left; margin-right: 8px; line-height: 1; 
+        }
 
-        /* MODALE PAGAMENTO RICCO */
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid var(--gold); padding: 0; z-index: 1000; width: 90%; max-width: 480px; box-shadow: 0 0 50px rgba(170, 0, 0, 0.5); }
-        .modal-header { background: var(--blood); color: #000; padding: 15px; font-family: 'Creepster'; font-size: 28px; text-align: center; }
-        .modal-body { padding: 25px; color: #ddd; text-transform: none; }
-        .step { background: #151515; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
-        .step b { color: var(--gold); display: block; margin-bottom: 5px; text-transform: uppercase; }
-        .paypal-btn { background: #0070ba; color: white; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; font-size: 16px; }
-        .activate-btn { background: var(--gold); color: #000; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: 'Special Elite'; font-size: 16px; text-transform: uppercase; }
-        .close-btn { color: #555; cursor: pointer; display: block; margin: 15px auto; background: none; border: none; text-decoration: underline; text-transform: uppercase; }
+        /* SIDEBARS SU MOBILE: DIVENTANO COMPATTE */
+        @media (max-width: 768px) {
+            body { overflow-y: auto; height: auto; }
+            .wrapper { flex-direction: column; height: auto; overflow: visible; }
+            .sidebar { 
+                width: 100%; max-height: 200px; border-right: none; 
+                border-bottom: 1px solid var(--blood); 
+            }
+            .display-area { min-height: 400px; padding: 20px; font-size: 18px; }
+            .nav-title { font-size: 18px; }
+        }
 
-        #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; }
-        @media (max-width: 768px) { .wrapper { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; min-width: 100%; height: auto; } .display-area { height: 400px; padding: 25px; } }
-        @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
+        .side-title { 
+            font-family: 'Creepster'; color: var(--blood); font-size: 18px; 
+            padding: 10px; background: #111; position: sticky; top: 0;
+        }
+        .file-link { 
+            padding: 10px 15px; font-size: 12px; border-bottom: 1px solid #111; 
+            cursor: pointer; color: #888; display: flex; justify-content: space-between;
+        }
+        .file-link:hover { color: var(--gold); background: #0c0c0c; }
+
+        /* CONDIVISIONE */
+        .share-container { 
+            display: none; padding: 15px; background: #050505; 
+            border-top: 1px solid var(--blood); text-align: center; 
+        }
+        .share-buttons { display: flex; justify-content: center; gap: 20px; margin-top: 10px; }
+        .share-btn { width: 35px; height: 35px; cursor: pointer; filter: invert(1); }
+
+        /* INPUT BOX */
+        .input-box { 
+            background: #000; border-top: 2px solid var(--blood); 
+            padding: 10px; display: flex; gap: 8px;
+        }
+        input { 
+            flex-grow: 1; background: #111; border: 1px solid #333; 
+            color: #fff; padding: 10px; font-family: 'Special Elite'; font-size: 14px; 
+        }
+        .evoca-btn { 
+            background: var(--blood); color: #000; border: none; 
+            padding: 0 15px; font-family: 'Creepster'; font-size: 18px;
+        }
+
+        /* MODALE PAGAMENTO */
+        .modal { 
+            display: none; position: fixed; top: 50%; left: 50%; 
+            transform: translate(-50%, -50%); background: #0a0a0a; 
+            border: 2px solid var(--gold); z-index: 1000; width: 85%; max-width: 400px;
+        }
+        .modal-header { background: var(--blood); color: #000; padding: 10px; font-family: 'Creepster'; text-align: center; }
+        .modal-body { padding: 20px; font-size: 14px; text-transform: none; }
+        .step { background: #151515; padding: 10px; margin-bottom: 10px; border-left: 3px solid var(--gold); }
+        .paypal-btn { background: #0070ba; color: #fff; width: 100%; padding: 10px; border: none; margin-top: 5px; cursor: pointer; font-weight: bold; }
+        #overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:999; }
     </style>
 </head>
 <body>
     <div id="overlay" onclick="closeVip()"></div>
     
     <div class="navbar">
-        <div style="font-family: 'Creepster'; font-size: 26px;">PROJECT PURGATORY</div>
+        <div class="nav-title">PROJECT PURGATORY</div>
         <div class="nav-right">
-            <a class="nav-link" href="mailto:portaleparanormale@gmail.com">CONTATTA L'ENTITÀ</a>
-            <div class="nav-link" onclick="accessAdmin()">ADMIN</div>
+            <a class="nav-link" href="mailto:portaleparanormale@gmail.com">CONTATTI</a>
+            <span class="nav-link" onclick="accessAdmin()" style="cursor:pointer">ADMIN</span>
         </div>
     </div>
 
-    <div class="vip-banner" id="main-banner" onclick="openVip()">
-        SBLOCCA IL TOMO PROIBITO - ACCESSO VIP
-    </div>
+    <div class="vip-banner" onclick="openVip()">SBLOCCA ACCESSO VIP</div>
 
     <div class="wrapper">
-        <div class="sidebar"><div class="side-title">EUROPE_FILES</div><div id="menu-left"></div></div>
+        <div class="sidebar">
+            <div class="side-title">EUROPE_FILES</div>
+            <div id="menu-left"></div>
+        </div>
+
         <div class="main-console">
-            <div class="audio-trigger" id="audio-btn" onclick="toggleVoice()">🔊</div>
             <div class="display-area" id="ui-text">Sussurra un nome per iniziare l'evocazione...</div>
             
             <div class="share-container" id="share-box">
-                <div class="share-title">Diffondi il terrore...</div>
+                <div style="font-size: 12px; color: var(--gold);">DIFFONDI IL TERRORE</div>
                 <div class="share-buttons">
-                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733585.png" onclick="share('wa')" title="WhatsApp">
-                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733547.png" onclick="share('fb')" title="Facebook">
-                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" onclick="share('tt')" title="Copia per TikTok">
-                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" onclick="share('tg')" title="Telegram">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733585.png" onclick="share('wa')">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733547.png" onclick="share('fb')">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" onclick="share('tg')">
                 </div>
             </div>
 
             <div class="input-box" id="search-box">
-                <input type="text" id="user-prompt" placeholder="Nome o luogo oscuro...">
-                <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
+                <input type="text" id="user-prompt" placeholder="Nome o luogo...">
+                <button class="evoca-btn" onclick="generaCustom()">EVOCA</button>
             </div>
         </div>
-        <div class="sidebar"><div class="side-title">GLOBAL_DEATH</div><div id="menu-right"></div></div>
+
+        <div class="sidebar">
+            <div class="side-title">GLOBAL_DEATH</div>
+            <div id="menu-right"></div>
+        </div>
     </div>
 
     <div id="payment-modal" class="modal">
-        <div class="modal-header">Patto di Sangue (Accesso VIP)</div>
+        <div class="modal-header">Patto di Sangue (VIP)</div>
         <div class="modal-body">
-            <div class="step">
-                <b>1. Offerta (5€)</b> Invia tramite PayPal a:
-                <div style="color:var(--gold); margin: 5px 0; font-family: monospace; font-size: 14px; background: #000; padding: 5px;">perruccigregorio31@gmail.com</div>
-                <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA CON PAYPAL</button>
+            <div class="step"><b>1. Offerta (5€)</b> PayPal: <br><i>perruccigregorio31@gmail.com</i>
+                <button class="paypal-btn" onclick="window.open('https://www.paypal.com')">PAGA</button>
             </div>
-            <div class="step">
-                <b>2. Consegna Ricevuta</b> Invia lo screenshot a: <br><i>portaleparanormale@gmail.com</i>
+            <div class="step"><b>2. Sigillo</b> Inserisci Token:
+                <input type="text" id="token-field" style="width:80%; padding:5px; margin-top:5px; background:#000; color:var(--gold); border:1px solid var(--gold);">
+                <button onclick="validaToken()" style="background:var(--gold); border:none; padding:5px; margin-top:5px; width:100%; cursor:pointer;">ATTIVA</button>
             </div>
-            <div class="step">
-                <b>3. Attiva il Sigillo</b>
-                <input type="text" id="token-field" style="width:92%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px; font-family: 'Special Elite';" placeholder="INSERISCI TOKEN_ID">
-                <button class="activate-btn" onclick="validaToken()">ATTIVA ACCESSO</button>
-            </div>
-            <button class="close-btn" onclick="closeVip()">[ RITORNA NELL'OMBRA ]</button>
+            <button class="close-btn" onclick="closeVip()" style="width:100%; background:none; color:#555; border:none; margin-top:10px; cursor:pointer;">[ CHIUDI ]</button>
         </div>
     </div>
 
@@ -137,17 +183,13 @@
         const SITE_URL = "https://undeadai-netizen.github.io/archivio-paranormal/";
         const VIP_TOKENS = ["VIP_9921", "GHOST_882", "MALEDETTO_2024", "GREGORIO_VIP"];
         let isVip = localStorage.getItem('isVipOmbre') === 'true';
-        let currentText = "";
-        let currentTitle = "";
+        let currentText = ""; let currentTitle = "";
 
         function init() {
             if (isVip) {
-                document.getElementById('main-banner').innerText = "PATTO VIP ATTIVO - ACCESSO TOTALE";
+                document.getElementById('main-banner').innerText = "ACCESSO VIP ATTIVO";
                 document.getElementById('main-banner').style.background = "var(--gold)";
                 document.getElementById('main-banner').style.color = "#000";
-                document.getElementById('search-box').classList.remove('input-locked');
-            } else {
-                document.getElementById('search-box').classList.add('input-locked');
             }
             loadTitoli();
         }
@@ -167,20 +209,17 @@
             list.forEach((item, index) => {
                 const d = document.createElement('div');
                 d.className = 'file-link';
-                if (!isVip && index > 1) d.classList.add('locked');
-                d.innerText = "† " + item.titolo;
-                d.onclick = () => { if (isVip || index <= 1) getStoria(item.titolo); else triggerLock(); };
+                d.innerHTML = `<span>† ${item.titolo}</span> ${(!isVip && index > 1) ? '🔒' : ''}`;
+                d.onclick = () => { if (isVip || index <= 1) getStoria(item.titolo); else openVip(); };
                 cont.appendChild(d);
             });
         }
 
         async function getStoria(prompt) {
             currentTitle = prompt;
-            window.speechSynthesis.cancel();
-            document.getElementById('audio-btn').style.display = "none";
             document.getElementById('share-box').style.display = "none";
             const ui = document.getElementById('ui-text');
-            ui.innerHTML = "<span style='color:var(--blood)'>Evocazione in corso...</span>";
+            ui.innerHTML = "<span style='color:var(--blood)'>Evocazione...</span>";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -190,7 +229,7 @@
                 const data = await res.json();
                 currentText = data.testo;
                 effettoScrittura(data.testo);
-            } catch(e) { ui.innerText = "Errore nel portale."; }
+            } catch(e) { ui.innerText = "Errore."; }
         }
 
         function effettoScrittura(t) {
@@ -199,34 +238,18 @@
                 if(i < t.length) { 
                     ui.innerHTML += t.charAt(i) === "\n" ? "<br>" : t.charAt(i);
                     i++; setTimeout(f, 5); ui.scrollTop = ui.scrollHeight; 
-                } else {
-                    document.getElementById('audio-btn').style.display = "block";
-                    document.getElementById('share-box').style.display = "block";
-                }
+                } else { document.getElementById('share-box').style.display = "block"; }
             }
             f();
         }
 
         function share(platform) {
-            const text = `Ho scoperto una cronaca oscura: "${currentTitle}" nell'archivio del Project Purgatory. Guarda tu stesso...`;
-            const url = encodeURIComponent(SITE_URL);
-            const fullMsg = encodeURIComponent(text + " " + SITE_URL);
+            const fullMsg = encodeURIComponent(`Cronaca di "${currentTitle}" su Project Purgatory: ${SITE_URL}`);
             if(platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${fullMsg}`);
-            if(platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
-            if(platform === 'tg') window.open(`https://t.me/share/url?url=${url}&text=${encodeURIComponent(text)}`);
-            if(platform === 'tt') { navigator.clipboard.writeText(text + " " + SITE_URL); alert("Link copiato per TikTok!"); }
+            if(platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SITE_URL)}`);
+            if(platform === 'tg') window.open(`https://t.me/share/url?url=${SITE_URL}&text=${fullMsg}`);
         }
 
-        function toggleVoice() {
-            window.speechSynthesis.cancel();
-            const msg = new SpeechSynthesisUtterance(currentText.replace(/[*#]/g, ''));
-            msg.lang = 'it-IT';
-            msg.pitch = 0.6;
-            window.speechSynthesis.speak(msg);
-        }
-
-        function triggerLock() { openVip(); }
-        function generaCustom() { if (!isVip) { triggerLock(); return; } const val = document.getElementById('user-prompt').value; if(val) getStoria(val); }
         function openVip() { document.getElementById('payment-modal').style.display='block'; document.getElementById('overlay').style.display='block'; }
         function closeVip() { document.getElementById('payment-modal').style.display='none'; document.getElementById('overlay').style.display='none'; }
         function validaToken() {
@@ -236,6 +259,7 @@
             } else { alert("TOKEN INVALIDO."); }
         }
         function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); } }
+        function generaCustom() { if (!isVip) openVip(); else { const val = document.getElementById('user-prompt').value; if(val) getStoria(val); } }
         init();
     </script>
 </body>
