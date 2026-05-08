@@ -2,52 +2,195 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Archivio Oscuro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
-        body { background: #050505; color: #f4e4bc; font-family: serif; text-align: center; }
-        .titolo-item { cursor: pointer; padding: 10px; border: 1px dotted #8a0707; margin: 10px; display: inline-block; }
-        #storia { white-space: pre-wrap; margin-top: 20px; text-align: left; padding: 20px; }
+        :root {
+            --pergamena: #f4e4bc;
+            --sangue: #8a0707;
+            --inchiostro: #1a1a1a;
+        }
+
+        body {
+            background-color: #050505;
+            color: var(--inchiostro);
+            font-family: 'Special Elite', serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 10px;
+        }
+
+        .pergamena {
+            background: var(--pergamena);
+            width: 95%;
+            max-width: 900px;
+            min-height: 85vh;
+            padding: 30px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.9), inset 0 0 80px rgba(139, 69, 19, 0.3);
+            border: 2px solid #5d4037;
+            position: relative;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            font-size: clamp(1.8em, 5vw, 3em);
+            color: var(--sangue);
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+            margin-bottom: 20px;
+            border-bottom: 2px double var(--sangue);
+            padding-bottom: 10px;
+        }
+
+        .griglia-titoli {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .titolo-item {
+            padding: 12px;
+            border: 1px solid rgba(138, 7, 7, 0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(0,0,0,0.03);
+            font-size: 0.95em;
+            text-align: center;
+        }
+
+        .titolo-item:hover {
+            background: var(--sangue);
+            color: white;
+            transform: scale(1.03);
+            box-shadow: 0 4px 15px rgba(138, 7, 7, 0.3);
+        }
+
+        #schermo-storia {
+            display: none;
+            line-height: 1.8;
+            font-size: 1.1em;
+            animation: fadeIn 1s;
+        }
+
+        #testo-storia {
+            white-space: pre-wrap;
+            margin-bottom: 30px;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            font-size: 1.5em;
+            color: var(--sangue);
+            margin: 50px 0;
+            animation: pulse 1.5s infinite;
+        }
+
+        .btn-indietro {
+            display: block;
+            margin: 20px auto;
+            padding: 12px 25px;
+            background: var(--sangue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes pulse { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+        /* Mobile Optimization */
+        @media (max-width: 600px) {
+            .pergamena { padding: 15px; }
+            .griglia-titoli { grid-template-columns: 1fr 1fr; gap: 8px; }
+            .titolo-item { font-size: 0.8em; padding: 8px; }
+        }
     </style>
 </head>
 <body>
-    <h1>ARCHIVIO OSCURO</h1>
-    <div id="lista-titoli">Caricamento titoli in corso...</div>
-    <div id="storia"></div>
+
+    <div class="pergamena">
+        <div id="interfaccia-principale">
+            <h1>ARCHIVIO OSCURO</h1>
+            <div id="lista-titoli" class="griglia-titoli">
+                </div>
+        </div>
+
+        <div id="caricamento" class="loading">Invocando le cronache...</div>
+
+        <div id="schermo-storia">
+            <h2 id="titolo-storia" style="color:var(--sangue); text-align:center; font-family:'Cinzel';"></h2>
+            <div id="testo-storia"></div>
+            <button class="btn-indietro" onclick="tornaIndietro()">Torna all'Archivio</button>
+        </div>
+    </div>
 
     <script>
         const API_URL = "https://archivio-paranormale-production.up.railway.app";
 
-        async function carica() {
+        async function caricaTitoli() {
             try {
-                console.log("Tentativo di connessione a:", API_URL);
-                const res = await fetch(API_URL + "/titoli");
-                const data = await res.json();
-                let html = "";
-                data.sinistra.concat(data.destra).forEach(t => {
-                    html += `<div class="titolo-item" onclick="genera('${t.titolo}')">${t.titolo}</div>`;
+                const response = await fetch(`${API_URL}/titoli`);
+                const data = await response.json();
+                const container = document.getElementById('lista-titoli');
+                container.innerHTML = "";
+                
+                // Uniamo le due colonne in una griglia fluida
+                const tuttiITitoli = [...data.sinistra, ...data.destra];
+                
+                tuttiITitoli.forEach(t => {
+                    const div = document.createElement('div');
+                    div.className = 'titolo-item';
+                    div.innerText = t.titolo;
+                    div.onclick = () => generaStoria(t.titolo);
+                    container.appendChild(div);
                 });
-                document.getElementById("lista-titoli").innerHTML = html;
-            } catch (e) {
-                document.getElementById("lista-titoli").innerHTML = "Errore di connessione al server Railway.";
-                console.error(e);
+            } catch (err) {
+                document.getElementById('lista-titoli').innerText = "Connessione con l'oltretomba fallita.";
             }
         }
 
-        async function genera(t) {
-            document.getElementById("storia").innerHTML = "Invocazione in corso...";
+        async function generaStoria(titolo) {
+            document.getElementById('interfaccia-principale').style.display = 'none';
+            document.getElementById('caricamento').style.display = 'block';
+            window.scrollTo(0,0);
+            
             try {
-                const res = await fetch(API_URL + "/genera-storia", {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ titolo: t })
+                const response = await fetch(`${API_URL}/genera-storia`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ titolo })
                 });
-                const data = await res.json();
-                document.getElementById("storia").innerHTML = "<h2>" + t + "</h2>" + data.testo;
-            } catch (e) {
-                alert("Errore nella generazione.");
+                const data = await response.json();
+                
+                document.getElementById('caricamento').style.display = 'none';
+                document.getElementById('schermo-storia').style.display = 'block';
+                document.getElementById('titolo-storia').innerText = titolo;
+                document.getElementById('testo-storia').innerText = data.testo;
+            } catch (err) {
+                alert("Il legame si è spezzato.");
+                tornaIndietro();
             }
         }
-        carica();
+
+        function tornaIndietro() {
+            document.getElementById('schermo-storia').style.display = 'none';
+            document.getElementById('interfaccia-principale').style.display = 'block';
+            document.getElementById('caricamento').style.display = 'none';
+        }
+
+        caricaTitoli();
     </script>
 </body>
 </html>
