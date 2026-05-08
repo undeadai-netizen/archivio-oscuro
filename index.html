@@ -14,104 +14,99 @@
             --sfondo-nero: #000000;
         }
 
-        body {
+        /* RESET TOTALE PER LO SCROLL */
+        html, body {
             background-color: var(--sfondo-nero);
             color: var(--rosso-sangue);
             font-family: 'Roboto Mono', monospace;
             margin: 0;
             padding: 0;
             min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden; /* Evita scivolamenti laterali */
+            overflow-y: auto !important; /* Forza lo scorrimento verticale */
         }
 
-        /* Navigazione Superiore */
         .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 5px 20px;
+            padding: 10px 20px;
             background: #000;
+            border-bottom: 1px solid #111;
         }
 
-        .logo { font-family: 'Nosifer', sans-serif; font-size: 1.2em; color: var(--rosso-sangue); }
-        .nav-links a { color: var(--rosso-sangue); text-decoration: none; margin-left: 20px; font-size: 0.8em; }
+        .logo { font-family: 'Nosifer', sans-serif; font-size: 1.5em; color: var(--rosso-sangue); }
+        .nav-links a { color: var(--rosso-sangue); text-decoration: none; margin-left: 20px; font-size: 0.9em; text-transform: uppercase; }
 
-        /* Banner VIP Cliccabile */
         .vip-banner {
             background: linear-gradient(to bottom, var(--rosso-scuro) 0%, var(--rosso-sangue) 10%, #000 100%);
             border-top: 1px solid var(--oro-vip);
             border-bottom: 1px solid var(--oro-vip);
             color: var(--oro-vip);
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             font-family: 'Creepster', cursive;
-            font-size: 1.6em;
+            font-size: 1.8em;
             cursor: pointer;
             text-transform: uppercase;
         }
 
-        /* Layout Principale */
+        /* LAYOUT FLESSIBILE */
         .main-layout {
             display: grid;
             grid-template-columns: 280px 1fr 280px;
-            flex: 1;
+            gap: 10px;
+            padding: 10px;
         }
 
         .sidebar {
             padding: 20px;
-            border-right: 1px solid #1a1a1a;
-            border-left: 1px solid #1a1a1a;
-            background: #000;
+            background: rgba(10, 0, 0, 0.5);
+            border: 1px solid #1a1a1a;
         }
 
         .sidebar-title {
             font-family: 'Creepster', cursive;
-            font-size: 1.4em;
+            font-size: 1.6em;
             margin-bottom: 20px;
             text-align: center;
-            border-bottom: 1px solid var(--rosso-scuro);
+            border-bottom: 2px solid var(--rosso-scuro);
         }
 
         .story-link {
-            padding: 8px;
+            padding: 10px;
             cursor: pointer;
-            font-size: 0.85em;
+            font-size: 0.9em;
+            border-bottom: 1px solid #111;
             transition: 0.2s;
-            text-transform: uppercase;
         }
-        .story-link:hover { color: #fff; background: #200; }
+        .story-link:hover { color: #fff; background: #300; }
 
-        /* Area Centrale - SISTEMATA PER SCORRIMENTO */
         .center-content {
             display: flex;
             flex-direction: column;
-            padding: 20px;
             background: #050505;
-            min-height: 600px;
+            border: 1px solid #222;
+            padding: 20px;
         }
 
+        /* AREA TESTO: ORA SI ALLUNGA CON IL CONTENUTO */
         #terminal-output {
-            flex-grow: 1;
-            padding: 20px;
-            border: 1px solid #1a1a1a;
             color: #ccc;
             font-size: 1.1em;
             line-height: 1.8;
             white-space: pre-wrap;
-            margin-bottom: 20px;
-            /* Rimosso overflow hidden per permettere alla pagina di allungarsi */
+            margin-bottom: 30px;
+            min-height: 400px;
         }
 
-        /* Box Evoca */
         .evoca-container {
             display: flex;
             gap: 10px;
-            padding: 15px;
+            padding: 20px;
             background: #000;
             border: 1px solid #300;
-            margin-bottom: 20px;
+            position: sticky; /* Rimane visibile mentre scrivi */
+            bottom: 0;
         }
 
         input[type="text"] {
@@ -119,8 +114,9 @@
             background: #0a0a0a;
             border: 1px solid #300;
             color: var(--rosso-sangue);
-            padding: 12px;
+            padding: 15px;
             font-family: 'Roboto Mono', monospace;
+            font-size: 1em;
         }
 
         .btn-evoca {
@@ -129,7 +125,7 @@
             border: none;
             padding: 0 30px;
             font-family: 'Creepster', cursive;
-            font-size: 1.4em;
+            font-size: 1.6em;
             cursor: pointer;
         }
         .btn-evoca:hover { background: var(--rosso-sangue); }
@@ -139,47 +135,27 @@
             display: none;
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9);
-            z-index: 1000;
+            background: rgba(0,0,0,0.95);
+            z-index: 9999;
             justify-content: center;
             align-items: center;
         }
-
         .modal-content {
             background: #111;
             border: 4px solid var(--oro-vip);
             width: 90%;
-            max-width: 600px;
+            max-width: 550px;
             padding: 30px;
             text-align: center;
         }
+        .step-box { background: #1a1a1a; margin: 15px 0; padding: 15px; border-left: 5px solid var(--oro-vip); text-align: left; }
+        .paypal-link { display: block; background: #0070ba; color: #fff; padding: 12px; text-decoration: none; font-weight: bold; margin-top: 10px; text-align: center; }
 
-        .modal-title { font-family: 'Creepster'; color: var(--oro-vip); font-size: 3em; }
-        
-        .step-box {
-            background: #222;
-            margin: 10px 0;
-            padding: 15px;
-            border: 1px solid #444;
-            text-align: left;
-            color: #eee;
-        }
-
-        .paypal-btn {
-            display: block;
-            background: #0070ba;
-            color: white;
-            text-decoration: none;
-            padding: 10px;
-            text-align: center;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-
-        /* Mobile */
-        @media (max-width: 900px) {
+        /* MOBILE OPTIMIZATION */
+        @media (max-width: 1000px) {
             .main-layout { grid-template-columns: 1fr; }
-            .sidebar { display: none; } /* Nasconde le sidebar su mobile per far spazio alla storia */
+            .sidebar { display: none; }
+            .logo { font-size: 1em; }
         }
     </style>
 </head>
@@ -204,10 +180,10 @@
         </div>
 
         <div class="center-content">
-            <div id="terminal-output">ACCESSO DATABASE... IN ATTESA DI COMANDO.</div>
+            <div id="terminal-output">ACCESSO AL DATABASE... SELEZIONA UN DOSSIER O DIGITA UN'ENTITÀ PER L'EVOCAZIONE.</div>
             
             <div class="evoca-container">
-                <input type="text" id="query-entita" placeholder="Inserisci il nome di un'entità...">
+                <input type="text" id="input-query" placeholder="Soggetto da evocare...">
                 <button class="btn-evoca" onclick="evocaLibera()">EVOCA</button>
             </div>
         </div>
@@ -220,49 +196,52 @@
 
     <div class="modal-overlay" id="vip-modal">
         <div class="modal-content">
-            <div class="modal-title">ACCESSO VIP</div>
+            <h1 style="font-family: 'Creepster'; color: var(--oro-vip); font-size: 2.5em; margin: 0;">ACCESSO VIP</h1>
             <div class="step-box">
-                1. INVIA 5€ (AMICI/FAMILIARI) A:<br>
+                1. DONAZIONE 5€ (Amici/Familiari):<br>
                 <b style="color:var(--oro-vip)">perruccigregorio31@gmail.com</b>
-                <a href="https://www.paypal.com/paypalme/perruccigregorio31/5" target="_blank" class="paypal-btn">PAGA ORA</a>
+                <a href="https://www.paypal.com/paypalme/perruccigregorio31/5" target="_blank" class="paypal-link">VAI A PAYPAL</a>
             </div>
             <div class="step-box">
-                2. INVIA RICEVUTA A:<br>
+                2. SCREENSHOT RICEVUTA A:<br>
                 <b style="color:var(--oro-vip)">portaleparanormale@gmail.com</b>
             </div>
             <div class="step-box">
-                3. INSERISCI TOKEN:<br>
-                <input type="text" style="width:80%; padding:5px; margin-top:5px;">
+                3. ATTIVAZIONE:<br>
+                <input type="text" placeholder="TOKEN RICEVUTO" style="width:100%; box-sizing:border-box; margin-top:5px; padding:10px; background:#000; border:1px solid var(--oro-vip); color:white;">
             </div>
-            <button onclick="toggleVip(false)" style="margin-top:20px; background:none; color:white; border:1px solid #444; cursor:pointer; padding:5px 20px;">CHIUDI</button>
+            <button onclick="toggleVip(false)" style="background:none; border:1px solid #444; color:white; padding:10px 30px; cursor:pointer; margin-top:10px;">ANNULLA</button>
         </div>
     </div>
 
     <script>
         const API_URL = "https://archivio-paranormale-production.up.railway.app";
 
-        async function init() {
+        async function caricaDati() {
             try {
                 const res = await fetch(`${API_URL}/titoli`);
                 const data = await res.json();
-                const draw = (id, list) => {
-                    const el = document.getElementById(id);
-                    list.forEach(t => {
+                const riempi = (id, lista) => {
+                    const box = document.getElementById(id);
+                    lista.forEach(t => {
                         const d = document.createElement('div');
                         d.className = 'story-link';
                         d.innerText = "† " + t.titolo;
-                        d.onclick = () => { genera(t.titolo); window.scrollTo(0,0); };
-                        el.appendChild(d);
+                        d.onclick = () => { genera(t.titolo); };
+                        box.appendChild(d);
                     });
                 };
-                draw('col-sinistra', data.sinistra);
-                draw('col-destra', data.destra);
-            } catch (e) { console.error("Offline"); }
+                riempi('col-sinistra', data.sinistra);
+                riempi('col-destra', data.destra);
+            } catch (e) { console.error("Server non raggiungibile."); }
         }
 
         async function genera(t) {
             const out = document.getElementById('terminal-output');
-            out.innerText = "ACCESSO FILE: " + t + "...\nESTRAZIONE DATI IN CORSO...";
+            out.innerText = ">>> ACCESSO FILE: " + t + "\n>>> DECRIPTAZIONE IN CORSO...\n>>> ATTENDERE...";
+            // Scroll automatico al testo per mobile
+            window.scrollTo({ top: document.querySelector('.vip-banner').offsetHeight, behavior: 'smooth' });
+
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
@@ -271,11 +250,11 @@
                 });
                 const data = await res.json();
                 out.innerText = data.testo;
-            } catch (e) { out.innerText = "ERRORE DI CONNESSIONE."; }
+            } catch (e) { out.innerText = "ERRORE CRITICO: CONNESSIONE PERSA."; }
         }
 
         function evocaLibera() {
-            const val = document.getElementById('query-entita').value;
+            const val = document.getElementById('input-query').value;
             if(val) genera(val);
         }
 
@@ -283,7 +262,7 @@
             document.getElementById('vip-modal').style.display = show ? 'flex' : 'none';
         }
 
-        init();
+        caricaDati();
     </script>
 </body>
 </html>
