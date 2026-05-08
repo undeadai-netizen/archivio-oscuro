@@ -20,7 +20,7 @@
     <meta property="og:image:width" content="1280">
     <meta property="og:image:height" content="720">
 
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
     
     <style>
         :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; --dark-bg: #050505; }
@@ -42,10 +42,16 @@
 
         .main-console { flex-grow: 1; display: flex; flex-direction: column; background: radial-gradient(circle, #111 0%, #000 100%); min-width: 0; position: relative; }
         .audio-trigger { position: absolute; top: 20px; right: 30px; font-size: 35px; cursor: pointer; color: var(--gold); display: none; z-index: 10; filter: drop-shadow(0 0 5px #000); transition: 0.3s; }
-        .audio-trigger:hover { transform: scale(1.2); color: var(--blood); }
         
         .display-area { flex-grow: 1; padding: 45px; overflow-y: auto; font-family: 'EB Garamond', serif; font-size: 22px; line-height: 1.8; color: #ccc; text-transform: none; text-align: justify; }
         .display-area::first-letter { font-family: 'Creepster'; font-size: 75px; color: var(--blood); float: left; margin-right: 12px; line-height: 1; }
+
+        /* BOX CONDIVISIONE */
+        .share-container { display: none; margin-top: 30px; padding: 20px; border-top: 1px double var(--blood); text-align: center; }
+        .share-title { font-family: 'Creepster'; color: var(--gold); font-size: 20px; margin-bottom: 15px; }
+        .share-buttons { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; }
+        .share-btn { width: 45px; height: 45px; cursor: pointer; transition: 0.3s; filter: grayscale(1) invert(1); }
+        .share-btn:hover { transform: translateY(-5px); filter: grayscale(0) invert(0); }
 
         .input-box { background: #050505; border-top: 2px solid var(--blood); padding: 15px; display: flex; gap: 10px; }
         .input-locked { opacity: 0.3; pointer-events: none; }
@@ -55,14 +61,9 @@
         .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid var(--gold); padding: 0; z-index: 1000; width: 90%; max-width: 480px; box-shadow: 0 0 50px rgba(170, 0, 0, 0.5); }
         .modal-header { background: var(--blood); color: #000; padding: 15px; font-family: 'Creepster'; font-size: 28px; text-align: center; }
         .modal-body { padding: 25px; color: #ddd; }
-        .step { background: #151515; padding: 15px; margin-bottom: 15px; border-left: 4px solid var(--gold); }
-        .step b { color: var(--gold); display: block; margin-bottom: 5px; }
-        .paypal-btn { background: #0070ba; color: white; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; border-radius: 4px; margin-top: 10px; font-size: 16px; }
-        .activate-btn { background: var(--gold); color: #000; padding: 12px; width: 100%; border: none; font-weight: bold; cursor: pointer; margin-top: 10px; font-family: 'Special Elite'; font-size: 16px; }
         .close-btn { color: #555; cursor: pointer; display: block; margin: 15px auto; background: none; border: none; text-decoration: underline; }
 
         #overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 999; }
-
         @media (max-width: 768px) { .wrapper { flex-direction: column; overflow-y: auto; } .sidebar { width: 100%; min-width: 100%; height: auto; } .display-area { height: 400px; padding: 25px; } }
         @keyframes pulse { 0%, 100% { opacity: 0.8; } 50% { opacity: 1; } }
     </style>
@@ -87,6 +88,17 @@
         <div class="main-console">
             <div class="audio-trigger" id="audio-btn" onclick="toggleVoice()">🔊</div>
             <div class="display-area" id="ui-text">Sussurra un nome per iniziare l'evocazione...</div>
+            
+            <div class="share-container" id="share-box">
+                <div class="share-title">Diffondi il terrore...</div>
+                <div class="share-buttons">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733585.png" onclick="share('wa')" title="WhatsApp">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/733/733547.png" onclick="share('fb')" title="Facebook">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/3046/3046121.png" onclick="share('tt')" title="Copia per TikTok">
+                    <img class="share-btn" src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" onclick="share('tg')" title="Telegram">
+                </div>
+            </div>
+
             <div class="input-box" id="search-box">
                 <input type="text" id="user-prompt" placeholder="Nome o luogo oscuro...">
                 <button class="evoca-btn" onclick="generaCustom(event)">EVOCA</button>
@@ -98,35 +110,22 @@
     <div id="payment-modal" class="modal">
         <div class="modal-header">Patto di Sangue (Accesso VIP)</div>
         <div class="modal-body">
-            <div class="step">
-                <b>1. Offerta (5€)</b> Invia tramite PayPal a:
-                <div style="color:var(--gold); margin: 5px 0; font-family: monospace;">perruccigregorio31@gmail.com</div>
-                <button class="paypal-btn" onclick="window.open('https://www.paypal.com', '_blank')">PAGA ORA</button>
-            </div>
-            <div class="step">
-                <b>2. Consegna Ricevuta</b> Invia lo screenshot a: <br><i>portaleparanormale@gmail.com</i>
-            </div>
-            <div class="step">
-                <b>3. Attiva il Sigillo</b>
-                <input type="text" id="token-field" style="width:90%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:5px;" placeholder="TOKEN_ID">
-                <button class="activate-btn" onclick="validaToken()">ATTIVA</button>
-            </div>
-            <button class="close-btn" onclick="closeVip()">[ CHIUDI ]</button>
+            <p>L'accesso completo richiede un'offerta di 5€.</p>
+            <button class="close-btn" onclick="closeVip()">[ RITORNA NELL'OMBRA ]</button>
         </div>
     </div>
 
     <script>
         const API_URL = "https://archivio-paranormale.onrender.com";
+        const SITE_URL = "https://undeadai-netizen.github.io/archivio-paranormal/";
         const VIP_TOKENS = ["VIP_9921", "GHOST_882", "MALEDETTO_2024", "GREGORIO_VIP"];
         let isVip = localStorage.getItem('isVipOmbre') === 'true';
         let currentText = "";
-        let isSpeaking = false;
+        let currentTitle = "";
 
         function init() {
             if (isVip) {
-                document.getElementById('main-banner').innerText = "PATTO VIP ATTIVO - ACCESSO TOTALE";
-                document.getElementById('main-banner').style.background = "var(--gold)";
-                document.getElementById('main-banner').style.color = "#000";
+                document.getElementById('main-banner').innerText = "PATTO VIP ATTIVO";
                 document.getElementById('search-box').classList.remove('input-locked');
             } else {
                 document.getElementById('search-box').classList.add('input-locked');
@@ -157,9 +156,10 @@
         }
 
         async function getStoria(prompt) {
+            currentTitle = prompt;
             window.speechSynthesis.cancel();
-            isSpeaking = false;
             document.getElementById('audio-btn').style.display = "none";
+            document.getElementById('share-box').style.display = "none";
             const ui = document.getElementById('ui-text');
             ui.innerHTML = "<span style='color:var(--blood)'>Evocazione in corso...</span>";
             try {
@@ -171,7 +171,7 @@
                 const data = await res.json();
                 currentText = data.testo;
                 effettoScrittura(data.testo);
-            } catch(e) { ui.innerText = "L'oscurità ha interrotto il legame."; }
+            } catch(e) { ui.innerText = "Errore nel portale."; }
         }
 
         function effettoScrittura(t) {
@@ -182,42 +182,39 @@
                     i++; setTimeout(f, 5); ui.scrollTop = ui.scrollHeight; 
                 } else {
                     document.getElementById('audio-btn').style.display = "block";
+                    document.getElementById('share-box').style.display = "block";
                 }
             }
             f();
         }
 
-        function toggleVoice() {
-            if (isSpeaking) {
-                window.speechSynthesis.cancel();
-                isSpeaking = false;
-                document.getElementById('audio-btn').innerText = "🔊";
-            } else {
-                window.speechSynthesis.cancel();
-                const msg = new SpeechSynthesisUtterance(currentText.replace(/[*#]/g, ''));
-                msg.lang = 'it-IT';
-                msg.pitch = 0.5;
-                msg.rate = 0.8;
-                msg.onstart = () => { isSpeaking = true; document.getElementById('audio-btn').innerText = "🔇"; };
-                msg.onend = () => { isSpeaking = false; document.getElementById('audio-btn').innerText = "🔊"; };
-                window.speechSynthesis.speak(msg);
+        function share(platform) {
+            const text = `Ho scoperto una cronaca oscura: "${currentTitle}" nell'archivio del Project Purgatory. Guarda tu stesso...`;
+            const url = encodeURIComponent(SITE_URL);
+            const fullMsg = encodeURIComponent(text + " " + SITE_URL);
+
+            if(platform === 'wa') window.open(`https://api.whatsapp.com/send?text=${fullMsg}`);
+            if(platform === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`);
+            if(platform === 'tg') window.open(`https://t.me/share/url?url=${url}&text=${encodeURIComponent(text)}`);
+            if(platform === 'tt') {
+                navigator.clipboard.writeText(text + " " + SITE_URL);
+                alert("Link copiato! Incollalo nel tuo video TikTok o nella bio.");
             }
         }
 
-        function triggerLock() { 
-            document.getElementById('ui-text').innerHTML = "<h2 style='color:var(--blood); text-align:center;'>ACCESSO NEGATO</h2>";
-            setTimeout(openVip, 1000); 
+        function toggleVoice() {
+            window.speechSynthesis.cancel();
+            const msg = new SpeechSynthesisUtterance(currentText.replace(/[*#]/g, ''));
+            msg.lang = 'it-IT';
+            msg.pitch = 0.6;
+            window.speechSynthesis.speak(msg);
         }
+
+        function triggerLock() { openVip(); }
         function generaCustom() { if (!isVip) { triggerLock(); return; } const val = document.getElementById('user-prompt').value; if(val) getStoria(val); }
         function openVip() { document.getElementById('payment-modal').style.display='block'; document.getElementById('overlay').style.display='block'; }
         function closeVip() { document.getElementById('payment-modal').style.display='none'; document.getElementById('overlay').style.display='none'; }
-        function validaToken() {
-            if(VIP_TOKENS.includes(document.getElementById('token-field').value.trim())) {
-                localStorage.setItem('isVipOmbre', 'true');
-                location.reload();
-            } else { alert("TOKEN INVALIDO."); }
-        }
-        function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { alert("TOKEN: " + VIP_TOKENS.join(", ")); if(confirm("Reset?")) { localStorage.removeItem('isVipOmbre'); location.reload(); } } }
+        function accessAdmin() { if(prompt("PASS:") === "GREGORIO2026") { localStorage.setItem('isVipOmbre', 'true'); location.reload(); } }
         init();
     </script>
 </body>
