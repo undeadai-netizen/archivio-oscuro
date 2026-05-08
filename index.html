@@ -10,7 +10,7 @@
     
     <meta property="og:title" content="Project Purgatory: Occult Archive">
     <meta property="og:description" content="Accedi alle cronache dell'oltretomba.">
-    <meta property="og:image" content="https://undeadai-netizen.github.io/archivio-paranormal/cover.png">
+    <meta property="og:image" content="https://undeadai-netizen.github.io/archivio-oscuro/cover.png">
     <meta property="og:type" content="website">
 
     <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Special+Elite&display=swap" rel="stylesheet">
@@ -71,7 +71,7 @@
         input { flex-grow: 1; background: #0a0a0a; border: 1px solid #333; color: #fff; padding: 12px; font-family: 'Special Elite'; font-size: 16px; }
         .evoca-btn { background: var(--blood); color: #000; border: none; padding: 0 20px; font-family: 'Creepster'; font-size: 22px; cursor: pointer; }
 
-        /* MODALE PAGAMENTO PROFESSIONALE */
+        /* MODALE PAGAMENTO */
         .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid var(--gold); z-index: 1000; width: 90%; max-width: 450px; box-shadow: 0 0 50px rgba(170, 0, 0, 0.7); }
         .modal-header { background: var(--blood); color: #000; padding: 15px; font-family: 'Creepster'; font-size: 26px; text-align: center; }
         .modal-body { padding: 25px; color: #ddd; text-transform: none; }
@@ -143,13 +143,13 @@
                 <input type="text" id="token-field" style="width:92%; padding:10px; background:#000; color:var(--gold); border:1px solid var(--gold); margin-top:8px; font-family: 'Special Elite';" placeholder="INSERISCI TOKEN_ID">
                 <button class="activate-btn" onclick="validaToken()">ATTIVA ACCESSO</button>
             </div>
-            <button onclick="closeVip()" style="width:100%; background:none; color:#555; border:none; margin-top:15px; cursor:pointer; text-decoration: underline;">[ TORNA NELL'OMBRA ]</button>
+            <button onclick="closeVip()" style="width:100%; background:none; color:#555; border:none; margin-top:15px; cursor:pointer; text-decoration: underline;">[ CHIUDI ]</button>
         </div>
     </div>
 
     <script>
         const API_URL = "https://archivio-paranormale.onrender.com";
-        const SITE_URL = "https://undeadai-netizen.github.io/archivio-paranormal/";
+        const SITE_URL = "https://undeadai-netizen.github.io/archivio-oscuro/";
         const VIP_TOKENS = ["VIP_9921", "GHOST_882", "MALEDETTO_2024", "GREGORIO_VIP"];
         
         let isVip = localStorage.getItem('isVipOmbre') === 'true';
@@ -170,7 +170,10 @@
                 const data = await res.json();
                 renderMenu(data.sinistra, 'menu-left');
                 renderMenu(data.destra, 'menu-right');
-            } catch(e) { console.log("In attesa del server..."); }
+            } catch(e) { 
+                console.log("In attesa del server..."); 
+                setTimeout(loadTitoli, 5000); // Riprova tra 5 secondi se fallisce
+            }
         }
 
         function renderMenu(list, id) {
@@ -189,17 +192,29 @@
             currentTitle = prompt;
             document.getElementById('share-box').style.display = "none";
             const ui = document.getElementById('ui-text');
-            ui.innerHTML = "<span style='color:var(--blood)'>L'entità sta scrivendo...</span>";
+            ui.innerHTML = "<span style='color:var(--blood); animation: pulse 1.5s infinite;'>L'ENTITÀ STA SCRIVENDO... ATTENDI IL SEGNALE...</span>";
+            
             try {
+                const controller = new AbortController();
+                const timeoutId = setTimeout(() => controller.abort(), 90000); // 90 secondi di pazienza
+
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify({ titolo: prompt })
+                    body: JSON.stringify({ titolo: prompt }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeoutId);
+
+                if (!res.ok) throw new Error("Errore");
+
                 const data = await res.json();
                 currentText = data.testo;
                 effettoScrittura(data.testo);
-            } catch(e) { ui.innerText = "L'oscurità ha interrotto la connessione. Riprova tra poco."; }
+            } catch(e) { 
+                ui.innerHTML = "<span style='color:var(--gold)'>IL LEGAME È DEBOLE... <br><br>Il server gratuito si sta svegliando. <br>CLICCA DI NUOVO sul titolo tra 10 secondi.</span>";
+            }
         }
 
         function effettoScrittura(t) {
