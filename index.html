@@ -14,8 +14,11 @@
             overflow: hidden; text-transform: uppercase;
         }
 
-        .navbar { background: #111; color: var(--blood); padding: 10px 20px; display: flex; justify-content: space-between; border-bottom: 2px solid var(--blood); z-index: 100; flex-shrink: 0; }
-        
+        .navbar { background: #111; color: var(--blood); padding: 10px 20px; display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid var(--blood); z-index: 100; flex-shrink: 0; }
+        .nav-right { display: flex; gap: 20px; align-items: center; }
+        .nav-link { cursor: pointer; font-size: 14px; transition: 0.3s; }
+        .nav-link:hover { color: var(--gold); }
+
         .vip-banner { 
             background: linear-gradient(90deg, #660000, #aa0000, #660000); color: var(--gold); 
             padding: 12px; text-align: center; font-family: 'Creepster'; font-size: 22px; 
@@ -36,6 +39,7 @@
             flex-grow: 1; padding: 45px; overflow-y: auto; 
             font-family: 'EB Garamond', serif; font-size: 22px; line-height: 1.8; 
             color: #ccc; text-transform: none; text-align: justify;
+            white-space: pre-wrap; /* Mantiene gli a capo del testo */
         }
         .display-area::first-letter { font-family: 'Creepster'; font-size: 70px; color: var(--blood); float: left; margin-right: 12px; line-height: 1; }
 
@@ -62,7 +66,10 @@
     <div id="overlay"></div>
     <div class="navbar">
         <div style="font-family: 'Creepster'; font-size: 24px;">ARCHIVIO_OMBRE_V16</div>
-        <div onclick="accessAdmin()" style="cursor:pointer;">ADMIN</div>
+        <div class="nav-right">
+            <div class="nav-link" onclick="window.location.href='mailto:portaleparanormale@gmail.com'">CONTATTA L'ENTITÀ</div>
+            <div class="nav-link" onclick="accessAdmin()">ADMIN</div>
+        </div>
     </div>
     <div class="vip-banner" id="main-banner" onclick="openVip()">SBLOCCA IL LIBRO DELLE OMBRE - ACCESSO VIP</div>
 
@@ -139,6 +146,8 @@
                     body: JSON.stringify({ titolo: prompt })
                 });
                 const data = await res.json();
+                // Sostituiamo gli a capo (\n) con <br> per la formattazione
+                const testoFormattato = data.testo.replace(/\n/g, "<br>");
                 effettoScrittura(data.testo);
             } catch(e) { ui.innerText = "La cronaca è andata perduta."; }
         }
@@ -151,8 +160,20 @@
         }
 
         function effettoScrittura(t) {
-            let i = 0; const ui = document.getElementById('ui-text'); ui.innerText = "";
-            function f() { if(i < t.length) { ui.innerText += t.charAt(i); i++; setTimeout(f, 5); ui.scrollTop = ui.scrollHeight; } }
+            let i = 0; const ui = document.getElementById('ui-text'); ui.innerHTML = "";
+            function f() { 
+                if(i < t.length) { 
+                    // Se incontriamo un a capo, mettiamo un br invece di \n
+                    if(t.charAt(i) === "\n") {
+                        ui.innerHTML += "<br>";
+                    } else {
+                        ui.innerHTML += t.charAt(i);
+                    }
+                    i++; 
+                    setTimeout(f, 5); 
+                    ui.scrollTop = ui.scrollHeight; 
+                } 
+            }
             f();
         }
 
