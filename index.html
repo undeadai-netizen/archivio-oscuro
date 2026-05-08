@@ -10,41 +10,42 @@
         
         html, body { background-color: var(--nero); color: var(--rosso); font-family: 'Roboto Mono', monospace; margin: 0; min-height: 100vh; overflow-y: auto !important; }
         
-        /* Navigazione Superiore */
-        .header-top { display: flex; justify-content: space-between; padding: 12px 20px; background: #000; border-bottom: 1px solid #222; align-items: center; }
-        .logo { font-family: 'Nosifer', sans-serif; color: var(--rosso); font-size: 1.3em; text-shadow: 0 0 10px rgba(255,0,0,0.5); }
+        /* Header Fisso */
+        .header-top { display: flex; justify-content: space-between; padding: 15px 20px; background: #000; border-bottom: 2px solid #222; align-items: center; }
+        .logo { font-family: 'Nosifer', sans-serif; color: var(--rosso); font-size: 1.4em; }
         .nav-links { display: flex; gap: 20px; }
-        .nav-links a, .nav-links span { color: var(--rosso); text-decoration: none; font-size: 0.85em; cursor: pointer; text-transform: uppercase; font-weight: bold; }
-        .nav-links a:hover, .nav-links span:hover { color: white; }
+        .nav-links a, .nav-links span { color: var(--rosso); text-decoration: none; font-size: 0.9em; cursor: pointer; text-transform: uppercase; font-weight: bold; border: 1px solid #300; padding: 5px 10px; border-radius: 4px; }
+        .nav-links a:hover, .nav-links span:hover { background: #300; color: white; }
 
         /* Banner VIP */
         .vip-banner { 
             background: linear-gradient(to bottom, #600 0%, var(--rosso) 20%, #000 100%); 
             border-top: 2px solid var(--oro); border-bottom: 2px solid var(--oro);
-            color: var(--oro); text-align: center; padding: 18px; 
-            font-family: 'Creepster', cursive; font-size: 1.8em; cursor: pointer;
+            color: var(--oro); text-align: center; padding: 20px; 
+            font-family: 'Creepster', cursive; font-size: 2em; cursor: pointer;
         }
 
-        /* Layout Principale */
+        /* Layout */
         .main-layout { display: grid; grid-template-columns: 280px 1fr 280px; gap: 15px; padding: 15px; }
-        .sidebar { background: rgba(10,0,0,0.8); padding: 15px; border: 1px solid #1a1a1a; height: fit-content; }
-        .sidebar-title { font-family: 'Creepster', cursive; color: var(--rosso); font-size: 1.5em; text-align: center; border-bottom: 1px solid #400; margin-bottom: 15px; }
+        .sidebar { background: rgba(15,0,0,0.9); padding: 15px; border: 1px solid #222; height: fit-content; }
+        .sidebar-title { font-family: 'Creepster', cursive; color: var(--rosso); font-size: 1.6em; text-align: center; border-bottom: 2px solid #500; margin-bottom: 15px; }
         
-        .story-link { padding: 10px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; transition: 0.2s; }
-        .story-link:hover { color: #fff; background: #300; transform: translateX(5px); }
+        .story-link { padding: 12px; cursor: pointer; font-size: 0.9em; border-bottom: 1px solid #111; transition: 0.3s; }
+        .story-link:hover { color: #fff; background: #400; padding-left: 20px; }
 
-        .center-content { background: #020202; border: 1px solid #1a1a1a; padding: 20px; display: flex; flex-direction: column; }
-        #terminal-output { color: #ccc; font-size: 1.15em; line-height: 1.8; white-space: pre-wrap; margin-bottom: 30px; min-height: 450px; }
+        .center-content { background: #050505; border: 1px solid #222; padding: 25px; display: flex; flex-direction: column; box-shadow: inset 0 0 50px #000; }
+        #terminal-output { color: #ddd; font-size: 1.2em; line-height: 1.8; white-space: pre-wrap; margin-bottom: 30px; min-height: 500px; }
 
-        /* Input Evoca */
-        .evoca-box { display: flex; gap: 10px; background: #000; padding: 15px; border: 1px solid #300; margin-top: auto; }
-        input[type="text"], input[type="password"] { flex: 1; background: #080808; border: 1px solid #400; color: var(--rosso); padding: 12px; font-family: 'Roboto Mono'; }
-        .btn-evoca { background: #500; color: #fff; border: none; padding: 0 30px; font-family: 'Creepster'; font-size: 1.5em; cursor: pointer; }
-        .btn-evoca:hover { background: var(--rosso); }
+        /* Input */
+        .evoca-box { display: flex; gap: 10px; background: #000; padding: 20px; border: 1px solid #400; margin-top: auto; }
+        input { flex: 1; background: #111; border: 1px solid #500; color: var(--rosso); padding: 15px; font-family: 'Roboto Mono'; font-size: 1em; }
+        .btn-evoca { background: #600; color: #fff; border: none; padding: 0 35px; font-family: 'Creepster'; font-size: 1.6em; cursor: pointer; transition: 0.3s; }
+        .btn-evoca:hover { background: var(--rosso); box-shadow: 0 0 15px var(--rosso); }
 
         /* Modali */
         .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 10000; justify-content: center; align-items: center; }
-        .modal-content { background: #111; border: 3px solid var(--oro); padding: 30px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 0 30px var(--oro); }
+        .modal-content { background: #0a0a0a; border: 3px solid var(--oro); padding: 40px; width: 90%; max-width: 500px; text-align: center; box-shadow: 0 0 50px rgba(255, 215, 0, 0.2); }
+        .close-btn { margin-top: 20px; background: none; border: 1px solid #555; color: #888; padding: 10px 20px; cursor: pointer; }
 
         @media (max-width: 1100px) { .main-layout { grid-template-columns: 1fr; } .sidebar { display: none; } }
     </style>
@@ -54,12 +55,12 @@
     <div class="header-top">
         <div class="logo">PARANORMAL</div>
         <div class="nav-links">
-            <span onclick="toggleM('admin-m', true)">ADMIN</span>
+            <span onclick="openM('admin-modal')">ADMIN</span>
             <a href="mailto:portaleparanormale@gmail.com">CONTATTAMI</a>
         </div>
     </div>
 
-    <div class="vip-banner" onclick="toggleM('vip-m', true)">
+    <div class="vip-banner" onclick="openM('vip-modal')">
         SBLOCCA TUTTI I CASI E LA RICERCA LIBERA - DIVENTA VIP
     </div>
 
@@ -70,7 +71,7 @@
         </div>
 
         <div class="center-content">
-            <div id="terminal-output">>>> IN ATTESA DI CONNESSIONE AL DATABASE...</div>
+            <div id="terminal-output">>>> INIZIALIZZAZIONE CONNESSIONE...</div>
             <div class="evoca-box">
                 <input type="text" id="query" placeholder="Soggetto da evocare...">
                 <button class="btn-evoca" onclick="evoca()">EVOCA</button>
@@ -83,28 +84,33 @@
         </div>
     </div>
 
-    <div id="vip-m" class="modal-overlay">
+    <div id="vip-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 style="font-family:'Creepster'; color:var(--oro); font-size:2.2em;">ACCESSO VIP</h2>
-            <p>1. Invia 5€ (Amici/Familiari) a:<br><b>perruccigregorio31@gmail.com</b></p>
-            <p>2. Screenshot ricevuta a:<br><b>portaleparanormale@gmail.com</b></p>
-            <p>3. Riceverai il Token da inserire in ADMIN.</p>
-            <button onclick="toggleM('vip-m', false)" style="background:none; color:white; border:1px solid #444; padding:10px 20px; cursor:pointer;">CHIUDI</button>
+            <h2 style="font-family:'Creepster'; color:var(--oro); font-size:2.5em;">ACCESSO VIP</h2>
+            <p>Invia 5€ (Amici/Familiari) a:<br><b style="color:var(--oro)">perruccigregorio31@gmail.com</b></p>
+            <p>Manda lo screenshot a:<br><b>portaleparanormale@gmail.com</b></p>
+            <button class="close-btn" onclick="closeM('vip-modal')">TORNA INDIETRO</button>
         </div>
     </div>
 
-    <div id="admin-m" class="modal-overlay">
+    <div id="admin-modal" class="modal-overlay">
         <div class="modal-content">
-            <h2 style="font-family:'Creepster'; color:var(--rosso); font-size:2.2em;">PANNELLO ADMIN</h2>
-            <p>Inserisci Token di Accesso:</p>
-            <input type="password" id="admin-token" placeholder="TOKEN..." style="width:100%; text-align:center; margin-bottom:15px;">
-            <button class="btn-evoca" style="width:100%;" onclick="alert('Verifica Token in corso...')">ATTIVA ACCESSO</button>
-            <button onclick="toggleM('admin-m', false)" style="background:none; border:none; color:#555; margin-top:15px; cursor:pointer;">ANNULLA</button>
+            <h2 style="font-family:'Creepster'; color:var(--rosso); font-size:2.5em;">ADMIN PANEL</h2>
+            <p>Inserisci Token:</p>
+            <input type="password" id="token-input" style="width:100%; text-align:center;">
+            <button class="btn-evoca" style="width:100%; margin-top:10px; font-size:1em;" onclick="alert('Token errato.')">ATTIVA</button>
+            <button class="close-btn" onclick="closeM('admin-modal')">ESCI</button>
         </div>
     </div>
 
     <script>
         const API = "https://archivio-paranormale-production.up.railway.app";
+
+        // Funzione per tenere sveglio il server
+        function keepAlive() {
+            fetch(`${API}/titoli`).catch(e => console.log("Sveglia inviata"));
+        }
+        setInterval(keepAlive, 30000); // Bussa ogni 30 secondi
 
         async function init() {
             try {
@@ -123,32 +129,32 @@
                 };
                 fill('col-sin', data.sinistra);
                 fill('col-des', data.destra);
-                document.getElementById('terminal-output').innerText = ">>> DATABASE CONNESSO. SELEZIONA UN DOSSIER.";
+                document.getElementById('terminal-output').innerText = ">>> DATABASE ONLINE. SELEZIONA UN DOSSIER.";
             } catch (e) { 
-                document.getElementById('terminal-output').innerText = ">>> L'OSCURITÀ HA INTERROTTO LA CONNESSIONE. RICONNESSIONE IN CORSO...";
-                setTimeout(init, 3000); 
+                document.getElementById('terminal-output').innerText = ">>> IL SERVER È IN PAUSA. CLICCA 'EVOCA' O UN TITOLO PER SVEGLIARLO.";
+                setTimeout(init, 5000); 
             }
         }
 
         async function genera(t) {
             const out = document.getElementById('terminal-output');
-            out.innerText = ">>> ACCESSO FILE: " + t.toUpperCase() + "\n>>> RECUPERO DATI...";
+            out.innerText = ">>> ACCESSO FILE: " + t.toUpperCase() + "\n>>> CARICAMENTO...";
             try {
                 const res = await fetch(`${API}/genera-storia`, {
                     method: 'POST',
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify({titolo: t})
                 });
-                if(!res.ok) throw new Error();
                 const data = await res.json();
                 out.innerText = data.testo;
             } catch (e) { 
-                out.innerText = ">>> ERRORE: Connessione instabile. Il server Railway sta caricando, clicca di nuovo tra 5 secondi."; 
+                out.innerText = ">>> L'OSCURITÀ HA INTERROTTO LA CONNESSIONE. IL SERVER SI STA RIACCENDENDO, CLICCA DI NUOVO TRA 5 SECONDI."; 
             }
         }
 
         function evoca() { const v = document.getElementById('query').value; if(v) genera(v); }
-        function toggleM(id, show) { document.getElementById(id).style.display = show ? 'flex' : 'none'; }
+        function openM(id) { document.getElementById(id).style.display = 'flex'; }
+        function closeM(id) { document.getElementById(id).style.display = 'none'; }
         
         init();
     </script>
