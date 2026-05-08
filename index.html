@@ -7,182 +7,257 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Creepster&family=Nosifer&family=Roboto+Mono:wght@400;700&display=swap');
 
+        :root {
+            --rosso-sangue: #ff0000;
+            --rosso-scuro: #8b0000;
+            --oro-vip: #ffd700;
+            --sfondo-nero: #000000;
+        }
+
         body {
-            background-color: #000;
-            color: #ff0000;
+            background-color: var(--sfondo-nero);
+            color: var(--rosso-sangue);
             font-family: 'Roboto Mono', monospace;
             margin: 0;
-            overflow-x: hidden;
-        }
-
-        /* Top Bar - Admin/Contattami */
-        .top-nav {
+            overflow: hidden;
+            height: 100vh;
             display: flex;
-            justify-content: flex-end;
-            gap: 20px;
-            padding: 10px 20px;
-            font-size: 0.8em;
-        }
-        .top-nav a { color: #ff0000; text-decoration: none; text-transform: uppercase; }
-
-        /* Header Titolo */
-        header {
-            padding: 10px 20px;
-            font-family: 'Nosifer', sans-serif;
-            font-size: 1.5em;
-            letter-spacing: 2px;
+            flex-direction: column;
         }
 
-        /* Banner VIP Giallo */
+        /* Navigazione Superiore */
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 20px;
+            background: #000;
+        }
+
+        .logo { font-family: 'Nosifer', sans-serif; font-size: 1.2em; color: var(--rosso-sangue); }
+        .nav-links a { color: var(--rosso-sangue); text-decoration: none; margin-left: 20px; font-size: 0.8em; }
+
+        /* Banner VIP Cliccabile */
         .vip-banner {
-            background: linear-gradient(to bottom, #8b0000 0%, #ff0000 10%, #000 100%);
-            border-top: 2px solid #ffd700;
-            border-bottom: 2px solid #ffd700;
-            color: #ffd700;
+            background: linear-gradient(to bottom, var(--rosso-scuro) 0%, var(--rosso-sangue) 10%, #000 100%);
+            border-top: 1px solid var(--oro-vip);
+            border-bottom: 1px solid var(--oro-vip);
+            color: var(--oro-vip);
             text-align: center;
-            padding: 15px;
+            padding: 10px;
             font-family: 'Creepster', cursive;
-            font-size: 1.8em;
+            font-size: 1.6em;
+            cursor: pointer;
             text-transform: uppercase;
-            text-shadow: 2px 2px #000;
+            transition: 0.3s;
         }
+        .vip-banner:hover { text-shadow: 0 0 10px var(--oro-vip); transform: scale(1.01); }
 
         /* Layout Principale */
-        .main-container {
+        .main-layout {
             display: grid;
-            grid-template-columns: 250px 1fr 250px;
-            min-height: 80vh;
-            border-top: 1px solid #333;
+            grid-template-columns: 280px 1fr 280px;
+            flex-grow: 1;
+            overflow: hidden;
         }
 
         .sidebar {
             padding: 20px;
-            border-right: 1px solid #222;
-            border-left: 1px solid #222;
+            border-right: 1px solid #1a1a1a;
+            border-left: 1px solid #1a1a1a;
+            overflow-y: auto;
         }
 
         .sidebar-title {
             font-family: 'Creepster', cursive;
-            font-size: 1.5em;
+            font-size: 1.4em;
             margin-bottom: 20px;
             text-align: center;
-        }
-
-        .content-area {
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        /* Lista Storie */
-        .story-list {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
+            border-bottom: 1px solid var(--rosso-scuro);
         }
 
         .story-link {
+            padding: 8px;
             cursor: pointer;
-            padding: 5px;
-            transition: 0.3s;
+            font-size: 0.85em;
+            transition: 0.2s;
+            text-transform: uppercase;
         }
-        .story-link:hover { background: #300; color: #fff; }
+        .story-link:hover { color: #fff; background: #200; }
 
-        /* Area Storia Generata */
-        #display-storia {
-            flex-grow: 1;
-            margin: 20px 0;
-            border: 1px solid #222;
+        /* Area Centrale */
+        .center-content {
+            display: flex;
+            flex-direction: column;
             padding: 20px;
-            color: #ccc;
+            background: #050505;
+        }
+
+        #terminal-output {
+            flex-grow: 1;
+            padding: 20px;
+            border: 1px solid #1a1a1a;
+            color: #aaa;
+            font-size: 1em;
             line-height: 1.6;
             white-space: pre-wrap;
             overflow-y: auto;
+            margin-bottom: 20px;
         }
 
-        /* Input In basso - BOX EVOCA */
-        .evoca-box {
+        /* Box Evoca */
+        .evoca-container {
             display: flex;
             gap: 10px;
-            border-top: 1px solid #440000;
-            padding-top: 20px;
+            padding: 15px;
+            background: #000;
+            border-top: 1px solid #300;
         }
 
         input[type="text"] {
             flex-grow: 1;
-            background: #080808;
-            border: 1px solid #440000;
-            color: #ff0000;
-            padding: 15px;
+            background: #0a0a0a;
+            border: 1px solid #300;
+            color: var(--rosso-sangue);
+            padding: 12px;
             font-family: 'Roboto Mono', monospace;
         }
 
         .btn-evoca {
-            background: #550000;
+            background: #400;
             color: #000;
             border: none;
-            padding: 0 40px;
+            padding: 0 30px;
             font-family: 'Creepster', cursive;
-            font-size: 1.5em;
+            font-size: 1.4em;
             cursor: pointer;
-            transition: 0.3s;
         }
-        .btn-evoca:hover { background: #ff0000; }
+        .btn-evoca:hover { background: var(--rosso-sangue); }
 
-        /* PayPal Hidden/Floating Section */
-        .support-area { text-align: center; padding: 20px; border-top: 1px solid #222; }
+        /* MODALE VIP (Popup) */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
 
-        @media (max-width: 900px) {
-            .main-container { grid-template-columns: 1fr; }
-            .sidebar { display: none; }
+        .modal-content {
+            background: #111;
+            border: 4px solid var(--oro-vip);
+            width: 90%;
+            max-width: 600px;
+            padding: 30px;
+            text-align: center;
+            box-shadow: 0 0 50px var(--oro-vip);
+        }
+
+        .modal-title { font-family: 'Creepster'; color: var(--oro-vip); font-size: 3em; margin-bottom: 10px; }
+        
+        .step-box {
+            background: #222;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #444;
+            text-align: left;
+            font-size: 0.9em;
+            color: #eee;
+        }
+
+        .paypal-btn {
+            display: block;
+            background: #0070ba;
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            font-weight: bold;
+            margin-top: 10px;
+            border-radius: 5px;
+        }
+
+        .input-token {
+            width: 100%;
+            background: #000;
+            border: 1px solid #444;
+            color: var(--oro-vip);
+            padding: 10px;
+            margin: 10px 0;
+            text-align: center;
+        }
+
+        .btn-attiva {
+            background: var(--oro-vip);
+            color: #000;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
 
-    <div class="top-nav">
-        <a href="#">ADMIN</a>
-        <a href="mailto:tuaemail@esempio.com">CONTATTAMI</a>
+    <div class="header-top">
+        <div class="logo">PARANORMAL</div>
+        <div class="nav-links">
+            <a href="#">ADMIN</a>
+            <a href="mailto:portaleparanormale@gmail.com">CONTATTAMI</a>
+        </div>
     </div>
 
-    <header>PARANORMAL</header>
-
-    <div class="vip-banner">
+    <div class="vip-banner" onclick="toggleVip(true)">
         SBLOCCA TUTTI I CASI E LA RICERCA LIBERA - DIVENTA VIP
     </div>
 
-    <div class="main-container">
+    <div class="main-layout">
         <div class="sidebar">
             <div class="sidebar-title">EUROPE_FILES</div>
-            <div id="col-sinistra" class="story-list"></div>
+            <div id="col-sinistra"></div>
         </div>
 
-        <div class="content-area">
-            <div id="display-storia">
-                Seleziona un file dal database o inserisci un'entità per iniziare l'evocazione...
-            </div>
-
-            <div class="evoca-box">
-                <input type="text" id="input-entita" placeholder="Inserisci il nome di un'entità...">
-                <button class="btn-evoca" onclick="evocaDallInput()">EVOCA</button>
+        <div class="center-content">
+            <div id="terminal-output">ACCESSO DATABASE... IN ATTESA DI COMANDO.</div>
+            
+            <div class="evoca-container">
+                <input type="text" id="query-entita" placeholder="Inserisci il nome di un'entità...">
+                <button class="btn-evoca" onclick="evocaLibera()">EVOCA</button>
             </div>
         </div>
 
         <div class="sidebar">
             <div class="sidebar-title">GLOBAL_DEATH</div>
-            <div id="col-destra" class="story-list"></div>
+            <div id="col-destra"></div>
         </div>
     </div>
 
-    <div class="support-area">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top">
-            <input type="hidden" name="business" value="LATUAEMAIL@PAYPAL.COM">
-            <input type="hidden" name="cmd" value="_xclick">
-            <input type="hidden" name="item_name" value="Supporto Database Paranormale">
-            <input type="hidden" name="currency_code" value="EUR">
-            <input type="image" src="https://www.paypalobjects.com/it_IT/IT/i/btn/btn_donate_SM.gif" name="submit" alt="PayPal">
-        </form>
+    <div class="modal-overlay" id="vip-modal">
+        <div class="modal-content">
+            <div class="modal-title">ACCESSO VIP</div>
+            <p>SBLOCCA L'INTERO ARCHIVIO E LA GENERAZIONE LIBERA.</p>
+            
+            <div class="step-box">
+                <b>1. DONAZIONE:</b> INVIA 5€ (AMICI/FAMILIARI) A:<br>
+                <span style="color:var(--oro-vip)">perruccigregorio31@gmail.com</span>
+                <a href="https://www.paypal.com/paypalme/perruccigregorio31/5" target="_blank" class="paypal-btn">PAGA CON PAYPAL</a>
+            </div>
+
+            <div class="step-box">
+                <b>2. SCREENSHOT:</b> INVIA LA RICEVUTA A:<br>
+                <span style="color:var(--oro-vip)">portaleparanormale@gmail.com</span>
+            </div>
+
+            <div class="step-box">
+                <b>3. CODICE:</b> INSERISCI IL TOKEN RICEVUTO:
+                <input type="text" class="input-token" placeholder="TOKEN_ID">
+                <button class="btn-attiva">ATTIVA ORA</button>
+            </div>
+
+            <div style="margin-top:20px; cursor:pointer;" onclick="toggleVip(false)">[ ESCI ]</div>
+        </div>
     </div>
 
     <script>
@@ -193,44 +268,42 @@
                 const res = await fetch(`${API_URL}/titoli`);
                 const data = await res.json();
                 
-                const renderList = (containerId, list) => {
-                    const container = document.getElementById(containerId);
-                    list.forEach(item => {
-                        const div = document.createElement('div');
-                        div.className = 'story-link';
-                        div.innerText = "> " + item.titolo;
-                        div.onclick = () => genera(item.titolo);
-                        container.appendChild(div);
+                const draw = (id, list) => {
+                    const el = document.getElementById(id);
+                    list.forEach(t => {
+                        const d = document.createElement('div');
+                        d.className = 'story-link';
+                        d.innerText = "† " + t.titolo;
+                        d.onclick = () => genera(t.titolo);
+                        el.appendChild(d);
                     });
                 };
-
-                renderList('col-sinistra', data.sinistra);
-                renderList('col-destra', data.destra);
-            } catch (e) {
-                console.error("Database offline.");
-            }
+                draw('col-sinistra', data.sinistra);
+                draw('col-destra', data.destra);
+            } catch (e) { console.error("Offline"); }
         }
 
-        async function genera(titolo) {
-            const display = document.getElementById('display-storia');
-            display.innerText = "ACCESSO AL FILE: " + titolo + "...\nCARICAMENTO DATI...\nESTRAZIONE CRONACA IN CORSO...";
-            
+        async function genera(t) {
+            const out = document.getElementById('terminal-output');
+            out.innerText = "CONNESSIONE AL FILE: " + t + "...\nESTRAZIONE CRONACA IN CORSO...";
             try {
                 const res = await fetch(`${API_URL}/genera-storia`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ titolo })
+                    body: JSON.stringify({ titolo: t })
                 });
                 const data = await res.json();
-                display.innerText = data.testo;
-            } catch (e) {
-                display.innerText = "ERRORE CRITICO: CONNESSIONE INTERROTTA.";
-            }
+                out.innerText = data.testo;
+            } catch (e) { out.innerText = "ERRORE DI CONNESSIONE."; }
         }
 
-        function evocaDallInput() {
-            const val = document.getElementById('input-entita').value;
+        function evocaLibera() {
+            const val = document.getElementById('query-entita').value;
             if(val) genera(val);
+        }
+
+        function toggleVip(show) {
+            document.getElementById('vip-modal').style.display = show ? 'flex' : 'none';
         }
 
         init();
