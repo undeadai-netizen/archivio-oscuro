@@ -3,82 +3,187 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Project Purgatory: Occult Archive</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&family=EB+Garamond&family=Special+Elite&display=swap" rel="stylesheet">
+    <title>Archivio Oscuro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=Special+Elite&display=swap" rel="stylesheet">
     <style>
-        :root { --blood: #aa0000; --ghost: #f0f0f0; --gold: #ffcc00; }
-        body { margin: 0; background: #000; color: var(--ghost); font-family: 'Special Elite', serif; display: flex; flex-direction: column; height: 100vh; overflow: hidden; text-transform: uppercase; }
-        .navbar { background: #111; color: var(--blood); padding: 10px 15px; display: flex; justify-content: space-between; border-bottom: 2px solid var(--blood); }
-        .vip-banner { background: linear-gradient(90deg, #440000, #aa0000, #440000); color: var(--gold); padding: 12px; text-align: center; font-family: 'Creepster'; cursor: pointer; animation: pulse 2s infinite; }
-        .wrapper { display: flex; flex-grow: 1; overflow: hidden; }
-        .sidebar { width: 250px; background: #080808; border-right: 1px solid #1a1a1a; overflow-y: auto; }
-        .side-title { font-family: 'Creepster'; color: var(--blood); padding: 15px; text-align: center; border-bottom: 1px solid var(--blood); }
-        .file-link { padding: 12px; font-size: 13px; border-bottom: 1px solid #111; cursor: pointer; color: #888; }
-        .file-link:hover { color: var(--gold); background: #111; }
-        .main-console { flex-grow: 1; display: flex; flex-direction: column; background: #000; }
-        .display-area { flex-grow: 1; padding: 30px; overflow-y: auto; font-family: 'EB Garamond', serif; font-size: 22px; text-transform: none; line-height: 1.6; text-align: justify; }
-        .modal { display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #0a0a0a; border: 2px solid var(--gold); z-index: 1000; width: 90%; max-width: 400px; padding: 20px; }
-        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
-        @media (max-width: 768px) { .wrapper { flex-direction: column; } .sidebar { width: 100%; max-height: 200px; } }
+        :root {
+            --pargamena: #f4e4bc;
+            --sangue: #8a0707;
+            --inchiostro: #1a1a1a;
+        }
+
+        body {
+            background-color: #050505;
+            color: var(--inchiostro);
+            font-family: 'Special Elite', serif;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .pergamena {
+            background: var(--pargamena);
+            width: 90%;
+            max-width: 800px;
+            min-height: 80vh;
+            padding: 40px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8), inset 0 0 100px rgba(139, 69, 19, 0.3);
+            border: 2px solid #5d4037;
+            position: relative;
+            margin: 20px;
+        }
+
+        h1 {
+            font-family: 'Cinzel', serif;
+            text-align: center;
+            font-size: 3em;
+            color: var(--sangue);
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            margin-bottom: 30px;
+            border-bottom: 2px double var(--sangue);
+        }
+
+        .sezione-titoli {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+        }
+
+        .colonna {
+            flex: 1;
+        }
+
+        .titolo-item {
+            padding: 10px;
+            margin: 5px 0;
+            cursor: pointer;
+            border-bottom: 1px dotted rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            font-size: 1.1em;
+        }
+
+        .titolo-item:hover {
+            color: var(--sangue);
+            background: rgba(138, 7, 7, 0.05);
+            transform: translateX(5px);
+        }
+
+        #schermo-storia {
+            display: none;
+            white-space: pre-wrap;
+            line-height: 1.6;
+            font-size: 1.2em;
+            animation: fadeIn 2s;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            font-style: italic;
+            color: var(--sangue);
+            margin-top: 20px;
+        }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        
+        .btn-indietro {
+            display: none;
+            margin-top: 30px;
+            padding: 10px 20px;
+            background: var(--sangue);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Cinzel', serif;
+        }
     </style>
 </head>
 <body>
-    <div class="navbar"><div style="font-family:'Creepster'; font-size:24px;">PROJECT PURGATORY</div></div>
-    <div class="vip-banner" onclick="openVip()">SBLOCCA IL TOMO PROIBITO - VIP</div>
-    <div class="wrapper">
-        <div class="sidebar"><div class="side-title">ARCHIVIO_OSCURO</div><div id="menu"></div></div>
-        <div class="main-console"><div class="display-area" id="ui-text">Seleziona una cronaca per iniziare...</div></div>
-    </div>
 
-    <div id="payment-modal" class="modal">
-        <h2 style="font-family:'Creepster'; color:var(--blood);">ACCESSO VIP</h2>
-        <p>Invia 5€ via PayPal a:<br><b>perruccigregorio31@gmail.com</b></p>
-        <p>Invia screenshot a: portaleparanormale@gmail.com</p>
-        <button onclick="closeVip()" style="background:var(--blood); color:#000; border:none; padding:10px; width:100%; font-family:'Special Elite';">CHIUDI</button>
+    <div class="pergamena">
+        <div id="interfaccia-principale">
+            <h1>Archivio Oscuro</h1>
+            <div class="sezione-titoli">
+                <div class="colonna" id="col-sinistra"></div>
+                <div class="colonna" id="col-destra"></div>
+            </div>
+        </div>
+
+        <div id="caricamento" class="loading">Invocando gli spiriti della cronaca...</div>
+
+        <div id="schermo-storia">
+            <h2 id="titolo-storia" style="color:var(--sangue); text-align:center;"></h2>
+            <div id="testo-storia"></div>
+            <button class="btn-indietro" onclick="tornaIndietro()">Chiudi Cronaca</button>
+        </div>
     </div>
 
     <script>
-        const STORIE = {
-            "Il Fantasma di Azzurrina": "Nelle mura del Castello di Montebello, il pianto di una bambina risuona ancora nelle notti di temporale...",
-            "Poveglia: L'isola del Male": "Un luogo dove la terra è composta per il 50% da ceneri umane. Le grida dei malati di peste non si sono mai assopite...",
-            "Villa de Vecchi": "La casa rossa tra i boschi, dove il tempo si è fermato a una notte di sangue e follia...",
-            "Il Manicomio di Mombello": "Migliaia di anime perse vagano tra i corridoi distrutti di quello che fu il più grande ospedale psichiatrico d'Europa..."
-        };
+        // LINK AL TUO NUOVO SERVER RAILWAY
+        const API_URL = "https://archivio-paranormale-production.up.railway.app";
 
-        const isVip = localStorage.getItem('isVip') === 'true';
+        async function caricaTitoli() {
+            try {
+                const response = await fetch(`${API_URL}/titoli`);
+                const data = await response.json();
+                
+                const colSin = document.getElementById('col-sinistra');
+                const colDes = document.getElementById('col-destra');
 
-        function renderMenu() {
-            const menu = document.getElementById('menu');
-            Object.keys(STORIE).forEach((titolo, i) => {
-                const d = document.createElement('div');
-                d.className = 'file-link';
-                d.innerHTML = `† ${titolo} ${(!isVip && i > 1) ? '🔒' : ''}`;
-                d.onclick = () => {
-                    if (isVip || i <= 1) mostraStoria(titolo);
-                    else openVip();
-                };
-                menu.appendChild(d);
-            });
-        }
+                data.sinistra.forEach(t => {
+                    const div = document.createElement('div');
+                    div.className = 'titolo-item';
+                    div.innerText = t.titolo;
+                    div.onclick = () => generaStoria(t.titolo);
+                    colSin.appendChild(div);
+                });
 
-        function mostraStoria(titolo) {
-            const ui = document.getElementById('ui-text');
-            ui.innerHTML = "";
-            let i = 0;
-            const testo = STORIE[titolo];
-            function scrivi() {
-                if (i < testo.length) {
-                    ui.innerHTML += testo.charAt(i);
-                    i++; setTimeout(scrivi, 15);
-                }
+                data.destra.forEach(t => {
+                    const div = document.createElement('div');
+                    div.className = 'titolo-item';
+                    div.innerText = t.titolo;
+                    div.onclick = () => generaStoria(t.titolo);
+                    colDes.appendChild(div);
+                });
+            } catch (err) {
+                console.error("Errore nel risveglio dei titoli:", err);
             }
-            scrivi();
         }
 
-        function openVip() { document.getElementById('payment-modal').style.display='block'; }
-        function closeVip() { document.getElementById('payment-modal').style.display='none'; }
-        
-        renderMenu();
+        async function generaStoria(titolo) {
+            document.getElementById('interfaccia-principale').style.display = 'none';
+            document.getElementById('caricamento').style.display = 'block';
+            
+            try {
+                const response = await fetch(`${API_URL}/genera-storia`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ titolo })
+                });
+                const data = await response.json();
+                
+                document.getElementById('caricamento').style.display = 'none';
+                document.getElementById('schermo-storia').style.display = 'block';
+                document.querySelector('.btn-indietro').style.display = 'block';
+                document.getElementById('titolo-storia').innerText = titolo;
+                document.getElementById('testo-storia').innerText = data.testo;
+            } catch (err) {
+                alert("L'oscurità ha reciso il legame. Riprova.");
+                tornaIndietro();
+            }
+        }
+
+        function tornaIndietro() {
+            document.getElementById('schermo-storia').style.display = 'none';
+            document.getElementById('interfaccia-principale').style.display = 'block';
+            document.getElementById('caricamento').style.display = 'none';
+        }
+
+        // Avvio
+        caricaTitoli();
     </script>
 </body>
 </html>
